@@ -1,2 +1,3 @@
-# OrdinaryLife
-Life Cycles #1
+# Ordinary Life
+
+Life cycles #1
