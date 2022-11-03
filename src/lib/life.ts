@@ -1,10 +1,14 @@
+import { DEAD_PROBABILITIES } from "../config/deadProbability";
+import { VERBS } from "../config/verbs";
+import { percenet } from "../utils";
+
 enum Relationship {
   single,  // 単身
   inRelationship,  // 交際中
   married  // 結婚済み
 }
 
-enum Sex {
+export enum Sex {
   male,
   female,
   undefined
@@ -21,85 +25,8 @@ interface Status {
   sex: Sex;
   relationship: Relationship;
   children: Child[];
+  events: string[];
 }
-
-const VERBS = [
-  "stand",
-  "walk",
-  "jump",
-  "talk",
-  "eat",
-  "drink",
-  "trip",
-  "love",
-  "like",
-  "sleep",
-  "awake",
-  "believe",
-  "buy",
-  "care",
-  "collect",
-  "cook",
-  "cough",
-  "cry",
-  "dance",
-  "draw",
-  "drive",
-  "enjoy",
-  "explain",
-  "fall",
-  "feel",
-  "find",
-  "follow",
-  "help",
-  "invite",
-  "introduce",
-  "kick",
-  "kiss",
-  "knock",
-  "laugh",
-  "lead",
-  "learn",
-  "leave",
-  "lie",
-  "live",
-  "meet",
-  "paint",
-  "pass",
-  "pick",
-  "play",
-  "prepare",
-  "promise",
-  "read",
-  "remember",
-  "report",
-  "run",
-  "save",
-  "say",
-  "sell",
-  "send",
-  "shake",
-  "share",
-  "show",
-  "smile",
-  "study",
-  "swim",
-  "teach",
-  "tell",
-  "thank",
-  "think",
-  "throw",
-  "touch",
-  "try",
-  "understand",
-  "use",
-  "wait",
-  "wash",
-  "watch",
-  "win",
-  "work",
-  "write",
-];
 
 /**
  *
@@ -111,38 +38,49 @@ export default class Life {
     sex: Sex.undefined,
     relationship: Relationship.single,
     children: [],
+    events: []
   };
 
-  /**
-   * get
-   */
-  public get(): string[] {
+  public get age(): number {
+    return this._status.age;
+  }
 
-    const events = ["born"];
+  public get sex(): Sex {
+    return this._status.sex;
+  }
 
-    const percent = (p: number) => Math.random() < p;
-    let limit = 80;
-    if (percent(.02)) {
-      // 100人に2人死産
-      limit = 0;
-    } else if (this._status.sex == Sex.male) {
-      // 男性
-      const getLimit = () => {
-        const seed = Math.random();
-      };
-    } else if (this._status.sex == Sex.female) {
-      // 女性
-    }
-
-    events.push("die");
-    return [];
+  public get events(): string[] {
+    return this._status.events;
   }
 
   /**
    * born
    */
-  private _born(): void {
+  public born(): boolean {
+    this._status.sex = percenet(.5) ? Sex.male : Sex.female;
+    if (percenet(DEAD_PROBABILITIES[this._status.sex][0])) {
+      this._status.events.push("die");
+      return false;
+    }
+    this._status.events.push("born");
+    return true;
+  }
 
+  execute() {
+    if (this._status.sex == Sex.undefined) throw new Error();
+    if (this._status.events.length > 0) throw new Error();
+
+    const deadProbabilities = DEAD_PROBABILITIES[this._status.sex];
+
+    let lastVerb = "";
+    for (let age in deadProbabilities) {
+      if (percenet(deadProbabilities[age])) break;
+      let verb = VERBS[Math.floor(Math.random() * VERBS.length)];
+      while (verb == lastVerb) verb = VERBS[Math.floor(Math.random() * VERBS.length)];
+      this._status.events.push(verb);
+    }
+
+    this._status.events.push("die");
   }
 
 }
