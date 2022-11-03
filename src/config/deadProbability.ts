@@ -1,10 +1,14 @@
 import { Sex } from "../lib/life";
 
+/**
+ * 日本の年齢別死亡率データ
+ * https://www.mhlw.go.jp/toukei/saikin/hw/life/life20/dl/life18-15.pdf
+ */
 export const DEAD_PROBABILITIES: {
-  [Sex.male]: { [key: number]: number; },
-  [Sex.female]: { [key: number]: number; };
+  male: { [key: number]: number; },
+  female: { [key: number]: number; },
 } = {
-  [Sex.male]: {
+  male: {
     0: 0.00184,
     1: 0.00023,
     2: 0.00016,
@@ -112,7 +116,7 @@ export const DEAD_PROBABILITIES: {
     104: 0.48251,
     105: 1.00000,
   },
-  [Sex.female]: {
+  female: {
     0: 0.00172,
     1: 0.00016,
     2: 0.00012,

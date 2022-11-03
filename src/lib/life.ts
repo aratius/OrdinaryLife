@@ -29,7 +29,7 @@ interface Status {
 }
 
 /**
- *
+ * Life
  */
 export default class Life {
 
@@ -58,7 +58,7 @@ export default class Life {
    */
   public born(): boolean {
     this._status.sex = percenet(.5) ? Sex.male : Sex.female;
-    if (percenet(DEAD_PROBABILITIES[this._status.sex][0])) {
+    if (percenet(DEAD_PROBABILITIES[this._status.sex == Sex.male ? "male" : "female"][0])) {
       this._status.events.push("die");
       return false;
     }
@@ -66,11 +66,14 @@ export default class Life {
     return true;
   }
 
+  /**
+   *
+   */
   execute() {
     if (this._status.sex == Sex.undefined) throw new Error();
-    if (this._status.events.length > 0) throw new Error();
+    if (this._status.events.length > 1) throw new Error();
 
-    const deadProbabilities = DEAD_PROBABILITIES[this._status.sex];
+    const deadProbabilities = DEAD_PROBABILITIES[this._status.sex == Sex.male ? "male" : "female"];
 
     let lastVerb = "";
     for (let age in deadProbabilities) {
@@ -78,8 +81,10 @@ export default class Life {
       let verb = VERBS[Math.floor(Math.random() * VERBS.length)];
       while (verb == lastVerb) verb = VERBS[Math.floor(Math.random() * VERBS.length)];
       this._status.events.push(verb);
+      lastVerb = verb;
     }
 
+    this._status.age = this._status.events.length;
     this._status.events.push("die");
   }
 
