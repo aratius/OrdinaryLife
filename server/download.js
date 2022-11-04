@@ -11,7 +11,9 @@ const download = async () => {
   if(!contents) return
 
   const keys = contents.map(e => e.Key)
-  console.log(`file list in bucket : \n${keys.join(",\n")}`);
+  console.log("files in bucket : ");
+  keys.forEach(k => console.log(`- ${k}`))
+  console.log("\n");
 
   const downloadTasks = []
   for(let i = 0; i < keys.length; i++) {
@@ -23,12 +25,15 @@ const download = async () => {
   for(let i = 0; i < data.length; i++) {
     const regDir = new RegExp(/^.*\//)
     const result = keys[i].match(regDir)
-    if(result != null) fs.mkdir(`public/static/speeches/${result[0]}`, (err) => err && console.warn(err))
-    writeTasks.push(writeFile(data[i], `public/static/speeches/${keys[i]}`))
+    if(result != null) {
+      let current = "public/static/speeches/"
+      mkdir(result[0], current, true)
+    }
+    writeTasks.push(writeFile(data[i], `public/static/speeches/${keys[i]}`, true))
   }
-  await Promise.all(writeTasks)
-
-
+  const filenames = await Promise.all(writeTasks)
+  console.log("file created : ");
+  filenames.forEach(f => console.log(`- ${f}`))
 }
 
 /**
@@ -69,15 +74,36 @@ const getFile = async(params) => {
   }
 }
 
+/**
+ *
+ * @param {*} data
+ * @param {string} filename
+ * @returns
+ */
 const writeFile = async (data, filename) => {
   return new Promise((res, rej) => {
     const writer = fs.createWriteStream(filename);
     writer.on("finish", () => {
-      console.log("success");
-      res()
+      res(filename)
     })
     writer.write(data);
     writer.end();
+  })
+}
+
+/**
+ *
+ * @param {string} dir
+ */
+const mkdir = (dir, current) => {
+  const directries = dir.split("/")
+  directries.forEach(d => {
+    if(d == "") return
+    const dir = `${current}/${d}`
+    if(!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, (err) => err && console.warn(err))
+    }
+    current += d
   })
 }
 
