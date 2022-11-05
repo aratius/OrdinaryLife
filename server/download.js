@@ -4,7 +4,7 @@ const fs = require("fs")
 
 const download = async () => {
   const bucketParams = {
-    Bucket: "life-speech",
+    Bucket: "polly-speeches",
   }
 
   const contents = await getlist(bucketParams)
