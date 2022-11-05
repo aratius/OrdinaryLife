@@ -25,6 +25,8 @@ const createPolly = async () => {
   }
 
   await Promise.all(tasks)
+
+  console.log("\ndone.");
 }
 
 createPolly()
