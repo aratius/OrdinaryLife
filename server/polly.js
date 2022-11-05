@@ -18,7 +18,7 @@ const polly = async (params) => {
     "voiceId": voiceId,
     "bucketName": "polly-speeches"
   })
-  .then(res => console.log("Speech file has created."))
+  .then(res => console.log(`Speech has created : https://polly-speeches.s3.amazonaws.com/${filename}.mp3`))
 
 }
 

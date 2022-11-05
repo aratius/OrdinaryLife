@@ -1,0 +1,14 @@
+{
+  "male": {
+    "child": "Justin",
+    "puberty": "Kevin",
+    "adult": "Matthew",
+    "senior": "Joey"
+  },
+  "female": {
+    "child": "Ivy",
+    "puberty": "Salli",
+    "adult": "Joanna",
+    "senior": "Kimberly"
+  }
+}
