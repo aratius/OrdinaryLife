@@ -13,8 +13,6 @@ const createSprite = async (...voiceIds) => {
       if(!fs.existsSync(`${crrDir}/public/static/speeches/${voiceId}/sprite`)) fs.mkdirSync(`${crrDir}/public/static/speeches/${voiceId}/sprite`)
       return new Promise((res, rej) => {
         glob(`${crrDir}/public/static/speeches/${voiceId}/*.mp3`, (err, files) => {
-          // フルパスをファイル名に
-          // files = files.map(f => f.match(/[^/]+$/)[0])
           res({
             voiceId: [voiceId],
             files
@@ -26,7 +24,6 @@ const createSprite = async (...voiceIds) => {
 
   const results = await Promise.all(detectFileTasks)
 
-  console.log(results);
   results.forEach(async result => {
     const { voiceId, files } = result
     const option = {
