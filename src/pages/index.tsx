@@ -5,15 +5,21 @@ import styles from "src/styles/index.module.scss"
 
 import Verbs from "server/verbs.json"
 
+const DEFAULTS = {
+  word: Verbs.verbs[0],
+  age: 20,
+  sex: Sex.male
+}
+
 /**
  * Index
  * @returns
  */
 export default function Index() {
 
-  const [word, setWord] = useState<string>("")
-  const [age, setAge] = useState<number>(0)
-  const [sex, setSex] = useState<Sex>(Sex.male)
+  const [word, setWord] = useState<string>(DEFAULTS.word)
+  const [age, setAge] = useState<number>(DEFAULTS.age)
+  const [sex, setSex] = useState<Sex>(DEFAULTS.sex)
 
   const player = useRef<VoicePlayer|null>(null)
 
@@ -35,7 +41,10 @@ export default function Index() {
       {/* word */}
       <form action="">
         <label htmlFor="">word</label>
-        <select onChange={e => setWord(e.target.value)}>
+        <select
+          defaultValue={DEFAULTS.word}
+          onChange={e => setWord(e.target.value)}
+        >
           {Verbs.verbs.map((v, i) => {
             return <option key={i} value={v}>{v}</option>
           })}
@@ -45,13 +54,20 @@ export default function Index() {
       {/* age */}
       <form action="">
         <label htmlFor="">age</label>
-        <input type="number" defaultValue={20} onChange={e => setAge(parseInt(e.target.value))}/>
+        <input
+          type="number"
+          defaultValue={DEFAULTS.age}
+          onChange={e => setAge(parseInt(e.target.value))}
+        />
       </form>
 
       {/* sex */}
       <form action="">
         <label htmlFor="">sex</label>
-        <select onChange={e => setSex(parseInt(e.target.value))}>
+        <select
+          defaultValue={DEFAULTS.sex}
+          onChange={e => setSex(parseInt(e.target.value))}
+        >
           <option value={Sex.male}>male</option>
           <option value={Sex.female}>female</option>
         </select>
@@ -59,7 +75,11 @@ export default function Index() {
 
       {/* play */}
       <form action="">
-        <input type="submit" value="play" onClick={onSubmit} />
+        <input
+          type="submit"
+          value="play"
+          onClick={onSubmit}
+        />
       </form>
     </div>
   )

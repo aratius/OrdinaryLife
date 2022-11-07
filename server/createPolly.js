@@ -24,8 +24,8 @@ const createPolly = async () => {
     tasks.push(...createPerPeron(voiceIds.female[key]))
   }
 
-  await Promise.all(tasks)
-
+  const res = await Promise.all(tasks)
+  console.log(`${res.length} files has created.`);
   console.log("\ndone.");
 }
 
