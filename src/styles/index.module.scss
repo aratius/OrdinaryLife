@@ -1,0 +1,29 @@
+.container {
+  padding: 20px;
+
+  form {
+    margin-bottom: 10px;
+    label {
+      display: inline-block;
+      width: 50px;
+      margin-right: 10px;
+      position: relative;
+
+      &::after {
+        content: ":";
+        position: absolute;
+        right: 0;
+      }
+    }
+
+    select {
+
+    }
+
+    input {
+
+    }
+
+  }
+
+}

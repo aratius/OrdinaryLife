@@ -1,0 +1,17 @@
+.container {
+  padding: 0 2rem;
+
+  div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    p {
+      width: 80px;
+      height: 20px;
+      font-size: .8rem;
+    }
+  }
+}

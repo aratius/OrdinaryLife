@@ -1,9 +1,13 @@
 import { Chart, CategoryScale, ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title} from 'chart.js'
 import { useEffect, useRef, useState } from 'react';
 import Life, { Sex } from '../lib/life';
-import styles from '../styles/Home.module.css'
+import styles from '../styles/test.module.scss'
 Chart.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
 
+/**
+ * Test
+ * @returns
+ */
 export default function Test() {
 
   const [isCounting, setIsCounting] = useState<boolean>(true)

@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useRef, useState } from "react";
 import VoicePlayer from "src/lib/voicePlayer";
 import { Sex } from "src/lib/life";
+import styles from "src/styles/index.module.scss"
 
 import Verbs from "server/verbs.json"
 
@@ -30,10 +31,10 @@ export default function Index() {
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       {/* word */}
       <form action="">
-        <label htmlFor="">word : </label>
+        <label htmlFor="">word</label>
         <select onChange={e => setWord(e.target.value)}>
           {Verbs.verbs.map((v, i) => {
             return <option key={i} value={v}>{v}</option>
@@ -43,13 +44,13 @@ export default function Index() {
 
       {/* age */}
       <form action="">
-        <label htmlFor="">age : </label>
+        <label htmlFor="">age</label>
         <input type="number" defaultValue={20} onChange={e => setAge(parseInt(e.target.value))}/>
       </form>
 
       {/* sex */}
       <form action="">
-        <label htmlFor="">sex : </label>
+        <label htmlFor="">sex</label>
         <select onChange={e => setSex(parseInt(e.target.value))}>
           <option value={Sex.male}>male</option>
           <option value={Sex.female}>female</option>
