@@ -3,8 +3,6 @@ const audiosprite = require('audiosprite')
 const glob = require("glob")
 const crrDir = process.cwd();
 
-const EXCLUES = /.DS_Store|sprite/
-
 const createSprite = async (...voiceIds) => {
   const detectFileTasks = []
   detectFileTasks.push(
@@ -27,7 +25,8 @@ const createSprite = async (...voiceIds) => {
     const { voiceId, files } = result
     const option = {
       output: `${crrDir}/public/static/speeches/${voiceId}/sprite/data`,
-      format: "howler"
+      format: "howler",
+      export: "mp3,wav"
     }
 
     try {
