@@ -4,12 +4,9 @@ import { Sex } from "src/lib/life";
 import styles from "src/styles/index.module.scss"
 
 import Verbs from "server/verbs.json"
+import { VoiceForm } from "src/components/voiceForm";
+import { ScannerInput } from "src/components/scannerInput";
 
-const DEFAULTS = {
-  word: Verbs.verbs[0],
-  age: 20,
-  sex: Sex.male
-}
 
 /**
  * Index
@@ -17,70 +14,37 @@ const DEFAULTS = {
  */
 export default function Index() {
 
-  const [word, setWord] = useState<string>(DEFAULTS.word)
-  const [age, setAge] = useState<number>(DEFAULTS.age)
-  const [sex, setSex] = useState<Sex>(DEFAULTS.sex)
 
   const player = useRef<VoicePlayer|null>(null)
 
   useEffect(() => {
     player.current = new VoicePlayer()
     player.current.init()
+    console.log(Sex.male);
+
   }, [])
 
   /**
-   *
+   * on data
+   * @param word
+   * @param age
+   * @param sex
    */
-  const onSubmit = (e: SyntheticEvent) => {
-    if(e && e.cancelable) e.preventDefault()
+  const onData = (word: string, age: number, sex: number) => {
     player.current?.play(word, age, sex)
+    console.log("onData", word, age, sex);
   }
+
 
   return (
     <div className={styles.container}>
-      {/* word */}
-      <form action="">
-        <label htmlFor="">word</label>
-        <select
-          defaultValue={DEFAULTS.word}
-          onChange={e => setWord(e.target.value)}
-        >
-          {Verbs.verbs.map((v, i) => {
-            return <option key={i} value={v}>{v}</option>
-          })}
-        </select>
-      </form>
-
-      {/* age */}
-      <form action="">
-        <label htmlFor="">age</label>
-        <input
-          type="number"
-          defaultValue={DEFAULTS.age}
-          onChange={e => setAge(parseInt(e.target.value))}
-        />
-      </form>
-
-      {/* sex */}
-      <form action="">
-        <label htmlFor="">sex</label>
-        <select
-          defaultValue={DEFAULTS.sex}
-          onChange={e => setSex(parseInt(e.target.value))}
-        >
-          <option value={Sex.male}>male</option>
-          <option value={Sex.female}>female</option>
-        </select>
-      </form>
-
-      {/* play */}
-      <form action="">
-        <input
-          type="submit"
-          value="play"
-          onClick={onSubmit}
-        />
-      </form>
+      <h1>Existence</h1>
+      <ScannerInput
+        onData={onData}
+      />
+      <VoiceForm
+        onData={onData}
+      />
     </div>
   )
 }
