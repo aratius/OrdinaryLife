@@ -10,18 +10,22 @@ const polly = async (params) => {
   const {text, filename, voiceId} = params
 
   return new Promise((res, rej) => {
-    axios.post(ENDPOINT, {
-      "text": text,
-      "filename": filename,
-      "sex": "male",
-      "age": 20,
-      "origin": "https://polly-speeches.s3.amazonaws.com",
-      "voiceId": voiceId,
-      "bucketName": "polly-speeches"
-    })
+    axios.post(
+      ENDPOINT,
+      {
+        "text": text,
+        "filename": filename,
+        "origin": "https://polly-speeches.s3.amazonaws.com",
+        "voiceId": voiceId,
+        "bucketName": "polly-speeches"
+      }
+    )
     .then(data => {
       console.log(`Speech has created : https://polly-speeches.s3.amazonaws.com/${filename}.mp3`)
       res(data)
+    })
+    .catch(err => {
+      console.warn("err", err)
     })
   })
 }

@@ -18,14 +18,14 @@ const createPolly = async () => {
   }
 
   for(const key in voiceIds.male) {
-    tasks.push(...createPerPeron(voiceIds.male[key]))
+    await Promise.all(createPerPeron(voiceIds.male[key]))
   }
   for(const key in voiceIds.female) {
-    tasks.push(...createPerPeron(voiceIds.female[key]))
+    await Promise.all(createPerPeron(voiceIds.female[key]))
   }
 
-  const res = await Promise.all(tasks)
-  console.log(`${res.length} files has created.`);
+  // const res = await Promise.all(tasks)
+  // console.log(`${res.length} files has created.`);
   console.log("\ndone.");
 }
 

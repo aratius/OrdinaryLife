@@ -8,11 +8,12 @@ const download = async () => {
   }
 
   const contents = await getlist(bucketParams)
+  console.log(contents.length);
   if(!contents) return
 
   const keys = contents.map(e => e.Key)
   console.log("files in bucket : ");
-  keys.forEach(k => console.log(`- ${k}`))
+  // keys.forEach(k => console.log(`- ${k}`))
   console.log("\n");
 
   const downloadTasks = []
@@ -33,7 +34,7 @@ const download = async () => {
   }
   const filenames = await Promise.all(writeTasks)
   console.log("file created : ");
-  filenames.forEach(f => console.log(`- ${f}`))
+  // filenames.forEach(f => console.log(`- ${f}`))
 }
 
 /**
