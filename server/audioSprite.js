@@ -6,7 +6,6 @@ const crrDir = process.cwd();
 const EXCLUES = /.DS_Store|sprite/
 
 const createSprite = async (...voiceIds) => {
-  console.log(crrDir);
   const detectFileTasks = []
   detectFileTasks.push(
     ...(voiceIds.map(async (voiceId) => {

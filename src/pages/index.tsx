@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { Howler } from "howler"
+import { useEffect, useRef } from "react";
+import { Howler, Howl } from "howler"
 
 /**
  * Index
@@ -7,7 +7,11 @@ import { Howler } from "howler"
  */
 export default function Index() {
 
-  const player = useRef(null)
+  const player = useRef<Howl|null>(null)
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <div>
