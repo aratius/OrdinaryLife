@@ -1,6 +1,3 @@
-// import { DEAD_PROBABILITIES } from "../config/deadProbability";
-// import { VERBS } from "../config/verbs";
-// import { percent } from "../utils";
 const DEAD_PROBABILITIES = require("../json/deadProbabiryty.json")
 const VERBS = require("../json/verbs.json").verbs
 
@@ -45,7 +42,7 @@ module.exports = class Life {
   }
 
   /**
-   *
+   * execute
    */
   execute() {
     if (this._status.sex == undefined) throw new Error();
