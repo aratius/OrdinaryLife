@@ -1,7 +1,9 @@
 const Life = require("./life");
 const Printer = require("../utils/printer")
+const { Client } = require("node-osc")
 
 const printer = new Printer("127.0.0.1", 8080)
+const client = new Client("192.168.1.1", 8000)
 
 let cnt = 0
 
@@ -40,6 +42,7 @@ const doLife = async () => {
     printer.add(`
 {code:${text}; option:code128,4,240,nohri}
     `)
+    client.send("/scanner", 1, () => {})
     await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
   }
 
