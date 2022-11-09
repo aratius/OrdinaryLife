@@ -1,6 +1,6 @@
 // import { DEAD_PROBABILITIES } from "../config/deadProbability";
 // import { VERBS } from "../config/verbs";
-// import { percenet } from "../utils";
+// import { percent } from "../utils";
 const DEAD_PROBABILITIES = require("../json/deadProbabiryty.json")
 const VERBS = require("../json/verbs.json").verbs
 
@@ -9,7 +9,7 @@ const percent = (x) => Math.random() < x
 /**
  * Life
  */
-export default class Life {
+module.exports = class Life {
 
   _status = {
     age: 0,
@@ -35,8 +35,8 @@ export default class Life {
    * born
    */
   born() {
-    this._status.sex = percenet(.5) ? Sex.male : Sex.female;
-    if (percenet(DEAD_PROBABILITIES[this._status.sex == Sex.male ? "male" : "female"][0])) {
+    this._status.sex = percent(.5) ? "male" : "female";
+    if (percent(DEAD_PROBABILITIES[this._status.sex][0])) {
       this._status.events.push("die");
       return false;
     }
@@ -48,14 +48,14 @@ export default class Life {
    *
    */
   execute() {
-    if (this._status.sex == Sex.undefined) throw new Error();
+    if (this._status.sex == undefined) throw new Error();
     if (this._status.events.length > 1) throw new Error();
 
-    const deadProbabilities = DEAD_PROBABILITIES[this._status.sex == Sex.male ? "male" : "female"];
+    const deadProbabilities = DEAD_PROBABILITIES[this._status.sex];
 
     let lastVerb = "";
     for (let age in deadProbabilities) {
-      if (percenet(deadProbabilities[age])) break;
+      if (percent(deadProbabilities[age])) break;
       let verb = VERBS[Math.floor(Math.random() * VERBS.length)];
       while (verb == lastVerb) verb = VERBS[Math.floor(Math.random() * VERBS.length)];
       this._status.events.push(verb);
