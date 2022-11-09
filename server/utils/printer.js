@@ -2,6 +2,9 @@ const http = require("http")
 
 const WAIT_TIME = 1000
 
+/**
+ * Printer
+ */
 module.exports = class Printer {
 
   _host = ""
