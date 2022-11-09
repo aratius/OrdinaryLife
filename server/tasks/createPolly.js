@@ -1,6 +1,6 @@
 const polly = require("./polly")
-const verbs = require("./verbs.json")
-const voiceIds = require("./voiceIds.json")
+const verbs = require("../json/verbs.json")
+const voiceIds = require("../json/voiceIds.json")
 
 /**
  * 音源の作成

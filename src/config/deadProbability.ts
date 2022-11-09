@@ -1,5 +1,3 @@
-import { Sex } from "../lib/life";
-
 /**
  * 日本の年齢別死亡率データ
  * https://www.mhlw.go.jp/toukei/saikin/hw/life/life20/dl/life18-15.pdf
