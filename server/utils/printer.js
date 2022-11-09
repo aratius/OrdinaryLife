@@ -40,19 +40,20 @@ module.exports = class Printer {
    * print
    */
   _print(text) {
-    const req = http.request(
-      {
-        host: this._host,
-        port: this._port,
-        path: "/tm_series1",
-        method: "POST",
-        headers: {
-          "Content-Type": "text/plain; charset=utf-8"
-        }
-      }
-    )
-    req.write(text)
-    req.end()
+    console.log("print : " + text);
+    // const req = http.request(
+    //   {
+    //     host: this._host,
+    //     port: this._port,
+    //     path: "/tm_series1",
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "text/plain; charset=utf-8"
+    //     }
+    //   }
+    // )
+    // req.write(text)
+    // req.end()
   }
 
 }
