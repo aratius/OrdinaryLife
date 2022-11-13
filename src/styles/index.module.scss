@@ -1,8 +1,25 @@
 .container {
   padding: 20px;
 
-  h1 {
-    font-size: 2rem;
+  .title {
+    display: flex;
+    align-items: center;
+    h1 {
+      font-size: 2rem;
+      margin-right: 20px;
+    }
+    span {
+      width: auto;
+      height: 30px;
+      color: white;
+      background-color: rgba(#ffffff, .3);
+      border: 1px solid gray;
+      border-radius: 15px;
+      padding: 0 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 
   h2 {

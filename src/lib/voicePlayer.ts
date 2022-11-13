@@ -10,7 +10,7 @@ import KimberlySpriteJson from "public/static/speeches/Kimberly/sprite/data.json
 import MatthewSpriteJson from "public/static/speeches/Matthew/sprite/data.json";
 import SalliSpriteJson from "public/static/speeches/Salli/sprite/data.json";
 
-import VoiceIds from "server/voiceIds.json";
+import VoiceIds from "server/json/voiceIds.json";
 
 /**
  * Voice player
@@ -37,6 +37,7 @@ export default class VoicePlayer {
    * init
    */
   public init(): void {
+    // 絶対パスをこのプロジェクトの相対パスに変換
     const pickPath = (path: string) => {
       const res = path.match(/\/static.*/);
       if (res) return res[0];

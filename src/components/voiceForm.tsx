@@ -1,6 +1,6 @@
 import { FC, SyntheticEvent, useState } from "react";
 import { Sex } from "src/lib/life";
-import Verbs from "server/verbs.json"
+import Verbs from "server/json/verbs.json"
 
 const DEFAULTS = {
   word: Verbs.verbs[0],
@@ -38,7 +38,7 @@ export const VoiceForm: FC<Props>  = (props: Props)=> {
           defaultValue={DEFAULTS.word}
           onChange={e => setWord(e.target.value)}
         >
-          {Verbs.verbs.map((v, i) => {
+          {Verbs.verbs.map((v: string, i: number) => {
             return <option key={i} value={v}>{v}</option>
           })}
         </select>

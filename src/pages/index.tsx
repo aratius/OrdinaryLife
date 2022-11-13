@@ -1,9 +1,7 @@
-import { SyntheticEvent, useEffect, useRef, useState } from "react";
+import { FocusEventHandler, useEffect, useRef, useState } from "react";
 import VoicePlayer from "src/lib/voicePlayer";
-import { Sex } from "src/lib/life";
 import styles from "src/styles/index.module.scss"
 
-import Verbs from "server/verbs.json"
 import { VoiceForm } from "src/components/voiceForm";
 import { ScannerInput } from "src/components/scannerInput";
 
@@ -14,14 +12,12 @@ import { ScannerInput } from "src/components/scannerInput";
  */
 export default function Index() {
 
-
+  const [mode, setMode] = useState<string>("")
   const player = useRef<VoicePlayer|null>(null)
 
   useEffect(() => {
     player.current = new VoicePlayer()
     player.current.init()
-    console.log(Sex.male);
-
   }, [])
 
   /**
@@ -32,15 +28,32 @@ export default function Index() {
    */
   const onData = (word: string, age: number, sex: number) => {
     player.current?.play(word, age, sex)
-    console.log("onData", word, age, sex);
   }
 
+  /**
+   *
+   */
+  const onFocusInput: FocusEventHandler = (e) => {
+    setMode("scanner")
+  }
+
+  /**
+   *
+   */
+  const onBlurInput: FocusEventHandler = (e) => {
+    setMode("form")
+  }
 
   return (
     <div className={styles.container}>
-      <h1>Existence</h1>
+      <div className={styles.title}>
+        <h1>Existence</h1>
+        <span>{mode}</span>
+      </div>
       <ScannerInput
         onData={onData}
+        onFocus={onFocusInput}
+        onBlur={onBlurInput}
       />
       <VoiceForm
         onData={onData}
