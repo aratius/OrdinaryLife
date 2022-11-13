@@ -15,6 +15,8 @@ const app = async () => {
   while(true) {
     await doLife()
     await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
+    await doMessage()
+    await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
   }
 }
 
@@ -46,6 +48,15 @@ const doLife = async () => {
     await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
   }
 
+  await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
+  printer.add("\n\n\n\n\n")
+}
+
+/**
+ * アイキャッチ的なかんじでメッセージ化作品名出す
+ */
+const doMessage = async () => {
+  printer.add(`Existence - arata matsumoto`)
   await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
   printer.add("\n\n\n\n\n")
 }
