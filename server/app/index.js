@@ -1,20 +1,24 @@
 const Life = require("./life");
 const Printer = require("../utils/printer")
-const { Client } = require("node-osc")
+const { Client } = require("node-osc");
+const fs = require("fs");
 
 const printer = new Printer("127.0.0.1", 8080)
 const client = new Client("192.168.1.1", 8000)
 
 let cnt = 0
+const crr = process.cwd()
 
 /**
  *
  */
 const app = async () => {
-  cnt = 0
+  cnt = await readCnt()
+
   while(true) {
     await doLife()
     await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
+    await writeCnt()
     await doMessage()
     await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
   }
@@ -56,9 +60,34 @@ const doLife = async () => {
  * アイキャッチ的なかんじでメッセージ化作品名出す
  */
 const doMessage = async () => {
-  printer.add(`Existence - arata matsumoto`)
+  printer.add(`{code:Existence - arata matsumoto; option:qrcode,8,L}`)
   await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
   printer.add("\n\n\n\n\n")
+}
+
+/**
+ *
+ */
+const writeCnt = () => {
+  return new Promise((res, rej) => {
+    fs.writeFile(`${crr}/server/json/cnt.txt`, cnt.toString(), (err) => {
+      if(err) rej(err)
+      res()
+    })
+  })
+}
+
+/**
+ *
+ * @returns
+ */
+const readCnt = () => {
+  return new Promise((res, rej) => {
+    fs.readFile(`${crr}/server/json/cnt.txt`, "utf-8", (err, data) => {
+      if(err) rej(err)
+      else res(parseInt(data))
+    })
+  })
 }
 
 app()
