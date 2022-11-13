@@ -10,7 +10,7 @@ let cnt = 0
 const crr = process.cwd()
 
 /**
- *
+ * main
  */
 const app = async () => {
   cnt = await readCnt()
@@ -66,7 +66,7 @@ const doMessage = async () => {
 }
 
 /**
- *
+ * cnt.txtを更新
  */
 const writeCnt = () => {
   return new Promise((res, rej) => {
@@ -78,7 +78,7 @@ const writeCnt = () => {
 }
 
 /**
- *
+ * cnt.txtを読み込み
  * @returns
  */
 const readCnt = () => {
