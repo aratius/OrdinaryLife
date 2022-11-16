@@ -43,7 +43,7 @@ const doLife = async () => {
 
   for(let i = 0; i < events.length; i++) {
     const event = events[i]
-    let text = `${event}/${age}/${sexId}/*`
+    let text = `${event}/${i}/${sexId}/*`
     while(text.length < 17) text += "*"  // barCodeの長さを統一するためにパディング
     printer.add(`
 {code:${text}; option:code128,1,240,nohri}
