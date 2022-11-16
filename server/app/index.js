@@ -4,7 +4,7 @@ const { Client } = require("node-osc");
 const fs = require("fs");
 
 const printer = new Printer("127.0.0.1", 8080)
-const client = new Client("192.168.1.1", 8000)
+const client = new Client("192.168.2.101", 8000)
 
 let cnt = 0
 const crr = process.cwd()
@@ -43,13 +43,14 @@ const doLife = async () => {
 
   for(let i = 0; i < events.length; i++) {
     const event = events[i]
-    let text = `${event}:${age}:${sexId}:*`
-    while(text.length < 30) text += "*"  // barCodeの長さを統一するためにパディング
+    let text = `${event}/${age}/${sexId}/*`
+    while(text.length < 17) text += "*"  // barCodeの長さを統一するためにパディング
     printer.add(`
-{code:${text}; option:code128,4,240,nohri}
+{code:${text}; option:code128,1,240,nohri}
     `)
-    client.send("/scanner", 1, () => {})
-    await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
+    client.send("/scanner/switch", 0, () => {})
+    client.send("/scanner/switch", 1, () => {})
+    await new Promise(r => setTimeout(() => setTimeout(r, 5000)))
   }
 
   await new Promise(r => setTimeout(() => setTimeout(r, 1000)))

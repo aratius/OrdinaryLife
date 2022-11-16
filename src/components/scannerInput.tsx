@@ -22,7 +22,7 @@ export const ScannerInput: FC<Props>  = (props: Props)=> {
   const onChange = (e: SyntheticEvent) => {
     if(inputTimer.current) clearTimeout(inputTimer.current)
     inputTimer.current = setTimeout(() => {
-      const [word, age, sex] = (e.target as HTMLInputElement).value.split(":");
+      const [word, age, sex] = (e.target as HTMLInputElement).value.split("/");
       (e.target as HTMLInputElement).value = "";
       onEndInput(word, parseInt(age), parseInt(sex))
     }, 100);
