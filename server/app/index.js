@@ -4,7 +4,7 @@ const { Client } = require("node-osc");
 const { Server } = require("ws")
 const fs = require("fs");
 const open = require("open")
-const { exec } = require('child_process');
+const { execSync } = require('child_process');
 
 const printer = new Printer("127.0.0.1", 8080)
 const oscClient = new Client("192.168.2.101", 8000)
@@ -18,12 +18,7 @@ const crr = process.cwd()
  */
 const app = async () => {
   // Next.jsのローカルサーバーを立ち上げ
-  await new Promise((res, rej) => {
-    exec("npm run dev", (err, stdout, stderr) => {
-      if(err) rej(err)
-      else res()
-    })
-  })
+  execSync("npm run dev")
 
   // ブラウザを開く
   open("http://localhost:3000/")
