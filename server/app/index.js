@@ -45,11 +45,13 @@ const doLife = async () => {
     const event = events[i]
     let text = `${event}/${i}/${sexId}/*`
     while(text.length < 17) text += "*"  // barCodeの長さを統一するためにパディング
-    printer.add(`
-{code:${text}; option:code128,1,240,nohri}
-    `)
-    client.send("/scanner/switch", 0, () => {})
-    client.send("/scanner/switch", 1, () => {})
+    printer.add(`{code:${text}; option:code128,1,240,nohri}`)
+    for(let i = 0; i < 3; i++) client.send("/scanner/switch", 0, () => {})
+    for(let i = 0; i < 3; i++) client.send("/scanner/switch", 1, () => {})
+    await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
+    printer.add("\n")
+    await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
+    printer.add("\n")
     await new Promise(r => setTimeout(() => setTimeout(r, 5000)))
   }
 
@@ -58,7 +60,7 @@ const doLife = async () => {
 }
 
 /**
- * アイキャッチ的なかんじでメッセージ化作品名出す
+ * アイキャッチ的なかんじでメッセージか作品名出す
  */
 const doMessage = async () => {
   printer.add(`{code:Existence - arata matsumoto; option:qrcode,8,L}`)
