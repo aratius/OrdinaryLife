@@ -4,6 +4,7 @@ import styles from "src/styles/index.module.scss"
 
 import { VoiceForm } from "src/components/voiceForm";
 import { ScannerInput } from "src/components/scannerInput";
+import { WsInput } from "src/components/wsInput";
 
 
 /**
@@ -56,6 +57,9 @@ export default function Index() {
         onBlur={onBlurInput}
       />
       <VoiceForm
+        onData={onData}
+      />
+      <WsInput
         onData={onData}
       />
     </div>

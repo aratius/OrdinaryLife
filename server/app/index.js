@@ -1,10 +1,14 @@
 const Life = require("./life");
 const Printer = require("../utils/printer")
 const { Client } = require("node-osc");
+const { Server } = require("ws")
 const fs = require("fs");
+const open = require("open")
+const { exec } = require('child_process');
 
 const printer = new Printer("127.0.0.1", 8080)
-const client = new Client("192.168.2.101", 8000)
+const oscClient = new Client("192.168.2.101", 8000)
+const wsServer = new Server({port: 8002})
 
 let cnt = 0
 const crr = process.cwd()
@@ -13,15 +17,38 @@ const crr = process.cwd()
  * main
  */
 const app = async () => {
+  // Next.jsのローカルサーバーを立ち上げ
+  await new Promise((res, rej) => {
+    exec("npm run dev", (err, stdout, stderr) => {
+      if(err) rej(err)
+      else res()
+    })
+  })
+
+  // ブラウザを開く
+  open("http://localhost:3000/")
+
+  // WebSocket接続待ち
+  await new Promise((res, rej) => {
+    wsServer.on("connection", async (msg) => {
+      console.log("ws connected");
+      res()
+    })
+  })
+
+  await new Promise(r => setTimeout(() => setTimeout(r, 3000)))
+
+  // 人数カウント
   cnt = await readCnt()
 
+  // アプリのループ
   while(true) {
     await doLife()
     await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
     await writeCnt()
     await doMessage()
     await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
-  }
+   }
 }
 
 /**
@@ -48,8 +75,11 @@ const doLife = async () => {
     printer.add(`
 {code:${text}; option:code128,1,240,nohri}
     `)
-    client.send("/scanner/switch", 0, () => {})
-    client.send("/scanner/switch", 1, () => {})
+    oscClient.send("/scanner/switch", 0, () => {})
+    oscClient.send("/scanner/switch", 1, () => {})
+    wsServer.clients.forEach((client) => {
+      client.send(text)
+    })
     await new Promise(r => setTimeout(() => setTimeout(r, 5000)))
   }
 
