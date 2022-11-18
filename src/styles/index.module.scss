@@ -45,7 +45,7 @@
     }
 
     input {
-
+      
     }
 
 
@@ -73,7 +73,9 @@
     }
 
     &.active {
-      opacity: 1;
+      &::before {
+        opacity: 1;
+      }
     }
   }
 

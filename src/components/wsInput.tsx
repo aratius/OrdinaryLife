@@ -21,6 +21,7 @@ export const WsInput: FC<Props>  = (props: Props)=> {
     })
     sock.addEventListener("message", (e) => {
       const [word, age, sex] = e.data.split("/");
+      console.log(e.data)
       props.onData(word, age, sex)
       setIsActive(true)
       setTimeout(() => {
@@ -32,7 +33,7 @@ export const WsInput: FC<Props>  = (props: Props)=> {
   return (
     <>
       <h2>WebSocket input</h2>
-      <div className={`${styles.lamp} ${isActive ? "active" : ""}`}></div>
+      <div className={`${styles.lamp} ${isActive ? styles.active : ""}`}></div>
     </>
   )
 
