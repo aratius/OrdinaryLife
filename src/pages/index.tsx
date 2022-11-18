@@ -1,4 +1,4 @@
-import { FocusEventHandler, useEffect, useRef, useState } from "react";
+import { FocusEventHandler, SyntheticEvent, useEffect, useRef, useState } from "react";
 import VoicePlayer from "src/lib/voicePlayer";
 import styles from "src/styles/index.module.scss"
 
@@ -13,7 +13,8 @@ import { WsInput } from "src/components/wsInput";
  */
 export default function Index() {
 
-  const [mode, setMode] = useState<string>("")
+  const [mode, setMode] = useState<string>("idle")
+  const [hasInitialized, setHasInitialized] = useState<boolean>(false)
   const player = useRef<VoicePlayer|null>(null)
 
   useEffect(() => {
@@ -45,23 +46,42 @@ export default function Index() {
     setMode("form")
   }
 
+  const onInit = (e: SyntheticEvent) => {
+    if(e && e.cancelable) e.preventDefault()
+    setHasInitialized(true)
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>
         <h1>Existence</h1>
         <span>{mode}</span>
       </div>
-      <ScannerInput
-        onData={onData}
-        onFocus={onFocusInput}
-        onBlur={onBlurInput}
-      />
-      <VoiceForm
-        onData={onData}
-      />
-      <WsInput
-        onData={onData}
-      />
+      {
+        hasInitialized ? 
+        <>
+          <ScannerInput
+            onData={onData}
+            onFocus={onFocusInput}
+            onBlur={onBlurInput}
+          />
+          <br/><br/>
+          <VoiceForm
+            onData={onData}
+          />
+          <br/>
+          <WsInput
+            onData={onData}
+          />
+        </> :
+         <form action="">
+         <input
+           type="submit"
+           value="play"
+           onClick={onInit}
+         />
+       </form>
+      }
     </div>
   )
 }

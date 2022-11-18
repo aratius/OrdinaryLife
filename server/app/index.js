@@ -1,13 +1,11 @@
 const Life = require("./life");
 const Printer = require("../utils/printer")
-const { Client } = require("node-osc");
 const { Server } = require("ws")
 const fs = require("fs");
 const open = require("open")
-const { execSync } = require('child_process');
+const { exec } = require('child_process');
 
 const printer = new Printer("127.0.0.1", 8080)
-const oscClient = new Client("192.168.2.101", 8000)
 const wsServer = new Server({port: 8002})
 
 let cnt = 0
@@ -17,11 +15,15 @@ const crr = process.cwd()
  * main
  */
 const app = async () => {
+  console.log("an app launched");
+
   // Next.jsのローカルサーバーを立ち上げ
-  execSync("npm run dev")
+  exec("npm run dev")
+  console.log("exec command : npm run dev");
 
   // ブラウザを開く
   open("http://localhost:3000/")
+  console.log("open browser");
 
   // WebSocket接続待ち
   await new Promise((res, rej) => {
@@ -67,13 +69,11 @@ const doLife = async () => {
     const event = events[i]
     let text = `${event}/${i}/${sexId}/*`
     while(text.length < 17) text += "*"  // barCodeの長さを統一するためにパディング
-    printer.add(`\n\n{code:${text}; option:code128,1,240,nohri}`)
-    for(let i = 0; i < 3; i++) client.send("/scanner/switch", 0, () => {})
-    for(let i = 0; i < 3; i++) client.send("/scanner/switch", 1, () => {})
+    printer.add(`\n\n{code:${text}; option:code128,1,120,nohri}`)
     wsServer.clients.forEach((client) => {
       client.send(text)
     })
-    await new Promise(r => setTimeout(() => setTimeout(r, 5000)))
+    await new Promise(r => setTimeout(() => setTimeout(r, 10000)))
   }
 
   await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
