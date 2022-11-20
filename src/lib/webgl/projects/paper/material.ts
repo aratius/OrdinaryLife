@@ -5,14 +5,13 @@ import depthVertexShader from "./shader/paperDepth.vert";
 
 export default class PaperMaterial extends ShaderMaterial {
 
-	constructor(tex: Texture) {
+	constructor() {
 		super({
 			fragmentShader,
 			vertexShader,
 			uniforms: {
 				uTime: new Uniform(0),
 				uTwist: new Uniform(0),
-				uBarCode: new Uniform(tex),
 				uCaos: new Uniform(0)
 			},
 			transparent: true

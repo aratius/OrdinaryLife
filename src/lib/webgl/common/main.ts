@@ -76,7 +76,7 @@ export default class WebGLBase {
 		if (this._settings.shouldUpdate) this._update();
 	}
 
-	public _deInit(): void {
+	public deInit(): void {
 		this._deInitChild();
 	}
 

@@ -5,7 +5,7 @@ import { loadTexture } from "../../common/utils";
 import PaperMaterial from "./material";
 import gsap from "gsap";
 
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
+import { EffectComposer, Pass } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { SavePass } from "three/examples/jsm/postprocessing/SavePass";
@@ -13,16 +13,18 @@ import { BlendShader } from "three/examples/jsm/shaders/BlendShader";
 import { CopyShader } from "three/examples/jsm/shaders/CopyShader";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 
-const PAPER_NUM = 20;
+const PAPER_NUM = 10;
 
 export default class Main extends WebGLBase {
 
 	public _projectName: string = "paper";
 	private _composer: EffectComposer | null = null;
+	private _bg: Mesh<BoxBufferGeometry, MeshStandardMaterial> | null = null;
 	private _meshes: Mesh<BoxBufferGeometry, PaperMaterial>[] = [];
 	private _timeline: (GSAPTimeline | null) = null;
 	private _caosTimeline: (GSAPTimeline | null) = null;
 	private _blendPass: ShaderPass | null = null;
+	private _savePass: SavePass | null = null;
 	private __blurCaos: number = 0;
 	private __blurSpread: number = 0;
 
@@ -68,13 +70,14 @@ export default class Main extends WebGLBase {
 		bg.position.setZ(-2);
 		bg.receiveShadow = true;
 		this._scene?.add(bg);
+		this._bg = bg;
 
 		const dirLight = new DirectionalLight(0xffffff, .5);
 		dirLight.position.set(0, 3, 10);
 		dirLight.lookAt(0, 0, 0);
 		dirLight.castShadow = true;
-		dirLight.shadow.mapSize.width = 2048;
-		dirLight.shadow.mapSize.height = 2048;
+		dirLight.shadow.mapSize.width = 2048 * .5;
+		dirLight.shadow.mapSize.height = 2048 * .5;
 		dirLight.shadow.radius = 10;
 		dirLight.shadow.blurSamples = 24;
 		dirLight.shadow.camera.top = 10;
@@ -108,6 +111,7 @@ export default class Main extends WebGLBase {
 				}
 			)
 		);
+		this._savePass = savePass;
 
 		const blendPass = new ShaderPass(BlendShader, "tDiffuse1");
 		blendPass.uniforms["tDiffuse2"] = new Uniform(savePass.renderTarget.texture);
@@ -121,7 +125,9 @@ export default class Main extends WebGLBase {
 		fxaaPass.material.uniforms["resolution"].value.x = 1 / innerWidth * this._renderer!.getPixelRatio();
 		fxaaPass.material.uniforms["resolution"].value.y = 1 / innerHeight * this._renderer!.getPixelRatio();
 
-		this._composer.addPass(new RenderPass(this._scene!, this._camera!));
+		const renderPass = new RenderPass(this._scene!, this._camera!);
+
+		this._composer.addPass(renderPass);
 		this._composer.addPass(blendPass);
 		this._composer.addPass(savePass);
 		this._composer.addPass(outputPass);
@@ -130,7 +136,18 @@ export default class Main extends WebGLBase {
 	}
 
 	protected _deInitChild(): void {
-
+		this._bg?.geometry.dispose();
+		this._bg?.material.dispose();
+		this._meshes.forEach(mesh => {
+			mesh.geometry.dispose();
+			mesh.material.dispose();
+		});
+		this._savePass?.renderTarget.texture.dispose();
+		this._savePass?.renderTarget.dispose();
+		this._renderer?.dispose();
+		while (this._scene!.children.length > 0) {
+			this._scene?.remove(this._scene.children[0]);
+		}
 	}
 
 	protected _resizeChild(): void {
@@ -198,8 +215,7 @@ export default class Main extends WebGLBase {
 	 */
 	private async _createPaper(): Promise<Mesh<BoxBufferGeometry, PaperMaterial>> {
 		const geo = new BoxBufferGeometry(1, 30, .01, 30, 300, 1);
-		const tex = await loadTexture("/images/barCode.jpg");
-		const mat = new PaperMaterial(tex);
+		const mat = new PaperMaterial();
 		const mesh = new Mesh(geo, mat);
 		mesh.customDepthMaterial = mat.getDepthMaterial();
 		mesh.castShadow = true;

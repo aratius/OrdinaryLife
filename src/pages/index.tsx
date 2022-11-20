@@ -28,7 +28,7 @@ export default class Index extends Component {
     }
 
 	componentWillUnmount(): void {
-		// this._webgl?.deInit()
+		this._webgl?.deInit()
 		// this._webgl = null
 	}
 
