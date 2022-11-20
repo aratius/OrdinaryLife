@@ -15,7 +15,23 @@
 			margin-bottom: 60px;
 
 			a {
-				border-bottom: 2px solid;
+				position: relative;
+				width: auto;
+				&::before {
+					content: "";
+					display: inline-block;
+					width: 100%;
+					height: 2px;
+					position: absolute;
+					left: 0;
+					bottom: 0;
+					background-color: #fff;
+					@keyframes line {
+						0% {width: 0%}
+						100% {width: 100%}
+					}
+					animation: line .5s;
+				}
 			}
 		}
 

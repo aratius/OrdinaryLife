@@ -1,7 +1,6 @@
 
-import { BoxBufferGeometry, DirectionalLight, LinearFilter, Mesh, MeshBasicMaterial, MeshStandardMaterial, PlaneBufferGeometry, ShaderMaterial, Uniform, WebGLRenderTarget } from "three";
+import { BoxBufferGeometry, DirectionalLight, LinearFilter, Mesh, MeshStandardMaterial, PlaneBufferGeometry, ShaderMaterial, Uniform, WebGLRenderTarget } from "three";
 import WebGLBase from "src/lib/webgl/common/main";
-import { loadTexture } from "../../common/utils";
 import PaperMaterial from "./material";
 import gsap from "gsap";
 
@@ -13,7 +12,6 @@ import { BlendShader } from "three/examples/jsm/shaders/BlendShader";
 import { CopyShader } from "three/examples/jsm/shaders/CopyShader";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 
-const PAPER_NUM = 10;
 
 export default class Main extends WebGLBase {
 
@@ -32,6 +30,11 @@ export default class Main extends WebGLBase {
 		super(canvas, {
 			camera: "perspective"
 		});
+	}
+
+	private get _paperNum(): number {
+		console.log(Math.ceil(innerWidth / 100) + 1);
+		return Math.ceil(innerWidth / 100) + 2;
 	}
 
 	private set _blurCaos(val: number) {
@@ -53,10 +56,10 @@ export default class Main extends WebGLBase {
 	}
 
 	protected async _initChild(): Promise<void> {
-		for (let x = 0; x < PAPER_NUM; x++) {
+		for (let x = 0; x < this._paperNum; x++) {
 			for (let z = 0; z < 1; z++) {
 				const mesh = await this._createPaper();
-				mesh.position.setX((x - PAPER_NUM / 2) * 1);
+				mesh.position.setX((x - this._paperNum / 2) * 1);
 				mesh.position.setZ(-(z + 1) * 1);
 				this._meshes.push(mesh);
 				this._scene?.add(mesh);
@@ -184,7 +187,7 @@ export default class Main extends WebGLBase {
 		if (this._timeline != null) this._timeline.kill();
 		this._timeline = gsap.timeline();
 		this._meshes.forEach((mesh, i) => {
-			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1.5, z: -1, duration: 1, ease: "expo.out" }, 0);
+			this._timeline!.to(mesh.position, { x: (i - this._paperNum / 2) * 1.5, z: -1, duration: 1, ease: "expo.out" }, 0);
 			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 2, duration: 1, ease: "sine.out" }, 0);
 			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 2, duration: 1, ease: "sine.out" }, 0);
 			this._timeline!.add(
@@ -199,7 +202,7 @@ export default class Main extends WebGLBase {
 		if (this._timeline != null) this._timeline.kill();
 		this._timeline = gsap.timeline();
 		this._meshes.forEach((mesh, i) => {
-			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1, z: 0, duration: 1, ease: "expo.out" }, 0);
+			this._timeline!.to(mesh.position, { x: (i - this._paperNum / 2) * 1, z: 0, duration: 1, ease: "expo.out" }, 0);
 			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 0, duration: 2, ease: "back.out" }, 0);
 			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 0, duration: 2, ease: "back.out" }, 0);
 			this._timeline!.add(
