@@ -5,9 +5,9 @@ export const percenet = (p: number) => Math.random() <= p;
  */
 export class Queue {
 
-  private _fns: (() => Promise<(any | void)>)[] = [];
+  private _fns: (() => Promise<void>)[] = [];
 
-  public add(fn: (() => Promise<(any | void)>)) {
+  public add(fn: (() => Promise<void>)) {
     this._fns.push(fn);
     if (this._fns.length == 1) this._queue();
   }
