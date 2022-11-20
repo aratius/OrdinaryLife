@@ -51,7 +51,7 @@ void main() {
 
 	#include <begin_vertex>
 
-	transformed = getTwistPos(transformed, getTwistNoise(transformed.y) * uTwist);
+	transformed = getTwistPos(transformed, getTwistNoise(transformed.y) * (uTwist * ((uCaos * 4.) + 1.)));
 
 	#include <morphtarget_vertex>
 	#include <skinning_vertex>
