@@ -11,6 +11,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { SavePass } from "three/examples/jsm/postprocessing/SavePass";
 import { BlendShader } from "three/examples/jsm/shaders/BlendShader";
 import { CopyShader } from "three/examples/jsm/shaders/CopyShader";
+import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 
 const PAPER_NUM = 20;
 
@@ -93,10 +94,15 @@ export default class Main extends WebGLBase {
 		const outputPass = new ShaderPass(CopyShader);
 		outputPass.renderToScreen = true;
 
+		const fxaaPass = new ShaderPass(FXAAShader);
+		fxaaPass.material.uniforms["resolution"].value.x = 1 / innerWidth * this._renderer!.getPixelRatio();
+		fxaaPass.material.uniforms["resolution"].value.y = 1 / innerHeight * this._renderer!.getPixelRatio();
+
 		this._composer.addPass(new RenderPass(this._scene!, this._camera!));
 		this._composer.addPass(blendPass);
 		this._composer.addPass(savePass);
 		this._composer.addPass(outputPass);
+		this._composer.addPass(fxaaPass);
 
 		window.addEventListener("click", () => {
 			this._spread();
@@ -114,8 +120,9 @@ export default class Main extends WebGLBase {
 	protected _updateChild(): void {
 		this._composer?.render();
 		this._meshes.forEach((mesh, i) => {
-			mesh.material.uniforms.uTime = new Uniform(this._elapsedTime + i * 100);
-			(mesh.customDepthMaterial as ShaderMaterial).uniforms.uTime = new Uniform(this._elapsedTime + i * 100);
+			const tOffset = Math.sin(i * 2.1) * 100;
+			mesh.material.uniforms.uTime = new Uniform(this._elapsedTime + tOffset);
+			(mesh.customDepthMaterial as ShaderMaterial).uniforms.uTime = new Uniform(this._elapsedTime + tOffset);
 		});
 	}
 

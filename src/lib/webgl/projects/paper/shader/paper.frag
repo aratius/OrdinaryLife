@@ -1,4 +1,5 @@
 #pragma glslify: snoise2 = require(glsl-noise/simplex/2d)
+#include <common>
 
 varying vec3 vNormal;
 varying vec3 vNormalRaw;
@@ -12,9 +13,12 @@ const vec3 lightVec = - vec3(1., 1., 1.);
 void main() {
 	vec2 coord = vUv;
 	const float interval = 1.3;
-	coord = fract(coord * vec2(1., 90.) / interval + vec2(0., uTime * -2.3)) * interval;
-	vec4 color = texture2D(uBarCode, coord);
-	if(coord.y > .97 || coord.y < .03 || coord.x > .97 || coord.x < .03) color.rgb = vec3(1.);
+	vec2 fracted = fract(coord * vec2(1., 90.) / interval + vec2(0., uTime * -2.3)) * interval;
+	vec2 floored = floor(coord * vec2(1., 90.) / interval + vec2(0., uTime * -2.3)) * interval;
+	// vec4 color = texture2D(uBarCode, fracted);
+	vec4 color = vec4(1.);
+	color.rgb = vec3(step(snoise2(vec2(fracted.x * (sin(uTime)+1.)*50., floored.y)), 0.));
+	if(fracted.y > .9 || fracted.y < .1 || coord.x > .95 || coord.x < .05) color.rgb = vec3(1.);
 	if(vNormalRaw.z == -1.) color.rgb = vec3(1.);  // 裏面
 	if(vNormalRaw.x == 1. || vNormalRaw.x == -1.) color.rgb = vec3(1.);  // 側面
 
@@ -24,7 +28,7 @@ void main() {
 	color.rgb *= amount;
 
 	// 紙の質感
-	color.rgb += vec3(snoise2(coord * vec2(100., 100.)) * .1);
+	color.rgb += vec3(snoise2(fracted * vec2(100., 100.)) * .1);
 
 	gl_FragColor = color;
 }

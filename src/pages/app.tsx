@@ -58,7 +58,7 @@ export default function Index() {
         <span>{mode}</span>
       </div>
       {
-        hasInitialized ? 
+        hasInitialized ?
         <>
           <ScannerInput
             onData={onData}
@@ -74,13 +74,13 @@ export default function Index() {
             onData={onData}
           />
         </> :
-         <form action="">
-         <input
-           type="submit"
-           value="play"
-           onClick={onInit}
-         />
-       </form>
+        <form action="">
+          <input
+            type="submit"
+            value="play"
+            onClick={onInit}
+          />
+        </form>
       }
     </div>
   )
