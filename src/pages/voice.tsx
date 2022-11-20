@@ -51,16 +51,13 @@ export default function Index() {
         <form action="">
           <input
             type="submit"
-            value="play"
+            value="init"
             onClick={onInit}
           />
         </form>
       }
       <br/>
-      <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
-      <br/>
-      <br/>
-      <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
+      <Link href="/system" className={styles.link}>{"> 戻る"}</Link>
     </div>
   )
 }

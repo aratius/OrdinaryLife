@@ -103,10 +103,7 @@ export default function Test() {
             <p>average: {average}</p>
             <canvas ref={onRefChart}></canvas>
             <br/>
-            <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
-            <br/>
-            <br/>
-            <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
+            <Link href="/system" className={styles.link}>{"> 戻る"}</Link>
           </>
         }
     </div>

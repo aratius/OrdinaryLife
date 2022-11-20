@@ -104,9 +104,6 @@ export default class Main extends WebGLBase {
 		this._composer.addPass(outputPass);
 		this._composer.addPass(fxaaPass);
 
-		window.addEventListener("click", () => {
-			this._spread();
-		});
 	}
 
 	protected _deInitChild(): void {
@@ -128,14 +125,33 @@ export default class Main extends WebGLBase {
 
 	/**
 	 *
+	 * @param val
 	 */
-	private _spread(): void {
+	public setCaos(val: number): void {
+		console.log("caos", val);
+
+	}
+
+	/**
+	 *
+	 */
+	public spread(): void {
 		if (this._timeline != null) this._timeline.kill();
 		this._timeline = gsap.timeline();
 		this._meshes.forEach((mesh, i) => {
-			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1.5, z: 0, duration: 1, ease: "expo.out" }, 0);
+			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1.5, z: -1, duration: 1, ease: "expo.out" }, 0);
 			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 5, duration: 1, ease: "sine.out" }, 0);
 			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 5, duration: 1, ease: "sine.out" }, 0);
+		});
+	}
+
+	public fold(): void {
+		if (this._timeline != null) this._timeline.kill();
+		this._timeline = gsap.timeline();
+		this._meshes.forEach((mesh, i) => {
+			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1, z: 0, duration: 1, ease: "expo.out" }, 0);
+			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 0, duration: 1, ease: "sine.out" }, 0);
+			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 0, duration: 1, ease: "sine.out" }, 0);
 		});
 	}
 
