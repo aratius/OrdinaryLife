@@ -79,7 +79,7 @@ export default class Life {
     for (let age in deadProbabilities) {
       if (percenet(deadProbabilities[age])) break;
       let verb = VERBS[Math.floor(Math.random() * VERBS.length)];
-      while (verb == lastVerb) verb = VERBS[Math.floor(Math.random() * VERBS.length)];
+      while (verb == lastVerb || verb == "born" || verb == "die") verb = VERBS[Math.floor(Math.random() * VERBS.length)];
       this._status.events.push(verb);
       lastVerb = verb;
     }
