@@ -17,6 +17,7 @@ export default function Test() {
   const [sex, setSex] = useState<Sex>(Sex.undefined)
 
   const [average, setAverage] = useState<number>(0)
+  const [prog, setProg] = useState<number>(0)
 
   const isMounted = useRef<boolean>(false)
   const life = useRef<Life>(new Life())
@@ -39,6 +40,7 @@ export default function Test() {
 
       setEvents(life.current.events)
       setSex(life.current.sex)
+      setProg(cnt / 1000)
 
       lifeLimits.current.push(life.current.age)
       cnt ++
@@ -85,6 +87,10 @@ export default function Test() {
         {
           isCounting ?
           <>
+            <span
+              className={styles.bar}
+              style={{width: `${prog * 100}%`}}
+            ></span>
             <p>age : {events.length}</p>
             <p>sex : {sex == Sex.male ? "male" : sex == Sex.female ? "female" : "undefined"}</p>
             <div>
