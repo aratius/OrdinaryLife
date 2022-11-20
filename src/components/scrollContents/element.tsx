@@ -3,7 +3,7 @@ import { FC, ReactElement, useRef, useState } from "react";
 interface Props {
   text: string;
   elementOnComplete?: ReactElement;
-  onRef: (element: HTMLLIElement, onIntersect: () => void) => void
+  onRef: (element: HTMLLIElement, onIntersect: () => Promise<void>) => void
 }
 
 export const ScrollElement: FC<Props> = (props: Props) => {
@@ -13,8 +13,8 @@ export const ScrollElement: FC<Props> = (props: Props) => {
 
   const mounted = useRef(false)
 
-  const animate = () => {
-    return new Promise(res => {
+  const animate = (): Promise<void> => {
+    return new Promise<void>(res => {
       const invokeTime = (t: number) => t * 50 + 500
       setTimeout(res, invokeTime(props.text.length-5))
       for(let i = 0; i < props.text.length; i++) {

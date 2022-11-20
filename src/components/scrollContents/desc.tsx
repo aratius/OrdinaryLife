@@ -16,7 +16,7 @@ export const ScrollContents: FC<Props> = (props: Props) => {
 
   const queue = useRef(new Queue())
   const observer = useRef<IntersectionObserver|null>(null)
-  const callbacks = useRef<({element: HTMLLIElement, onIntersect: () => void}[])>([])
+  const callbacks = useRef<({element: HTMLLIElement, onIntersect: () => Promise<void>}[])>([])
 
   useEffect(() => {
     if(!observer.current) initObserver()
@@ -40,7 +40,7 @@ export const ScrollContents: FC<Props> = (props: Props) => {
     })
   }
 
-  const onRefElement = (element: HTMLLIElement, onIntersect: () => void) => {
+  const onRefElement = (element: HTMLLIElement, onIntersect: () => Promise<void>) => {
     if(!observer.current) initObserver()
     if(callbacks.current.filter(c => c.element == element).length == 0) {
       observer.current?.observe(element)
