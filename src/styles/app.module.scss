@@ -1,5 +1,8 @@
 .container {
+  width: 100%;
+  min-height: 100vh;
   padding: 20px;
+  background-color: #000;
   .title {
     display: flex;
     align-items: center;
@@ -81,6 +84,6 @@
 
   a {
     border-bottom: 2px solid;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
 }

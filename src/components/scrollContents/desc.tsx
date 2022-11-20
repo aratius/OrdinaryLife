@@ -51,11 +51,11 @@ export const ScrollContents: FC<Props> = (props: Props) => {
   return (
     <ul className={styles.messages}>
       <ScrollElement
-        text="流れ行くReceiptと"
+        text="流れ行くレシートと"
         onRef={onRefElement}
       />
       <ScrollElement
-        text="それに印刷されるBarcodeは,"
+        text="それに印刷されるバーコードは,"
         onRef={onRefElement}
       />
       <ScrollElement
