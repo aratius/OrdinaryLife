@@ -23,7 +23,9 @@ export const ScrollContents: FC<Props> = (props: Props) => {
   }, [])
 
   const initObserver = () => {
-    observer.current = new IntersectionObserver(onIntersect, {})
+    observer.current = new IntersectionObserver(onIntersect, {
+      rootMargin: "-100px"
+    })
   }
 
   const onIntersect = (entries: IntersectionObserverEntry[]) => {
