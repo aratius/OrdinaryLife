@@ -1,7 +1,7 @@
 export const percenet = (p: number) => Math.random() <= p;
 
 /**
- *
+ * Promiseを順次実行
  */
 export class Queue {
 
