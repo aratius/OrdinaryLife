@@ -34,7 +34,7 @@ export default class Main extends WebGLBase {
 
 	private set _blurCaos(val: number) {
 		this.__blurCaos = val;
-		this._blendPass!.uniforms["mixRatio"].value = Math.max(this.__blurCaos, this.__blurSpread);
+		if (this._blendPass) this._blendPass!.uniforms["mixRatio"].value = Math.max(this.__blurCaos, this.__blurSpread);
 	}
 
 	private get _blurCaos(): number {
@@ -43,7 +43,7 @@ export default class Main extends WebGLBase {
 
 	private set _blurSpread(val: number) {
 		this.__blurSpread = val;
-		this._blendPass!.uniforms["mixRatio"].value = Math.max(this.__blurCaos, this.__blurSpread);
+		if (this._blendPass) this._blendPass!.uniforms["mixRatio"].value = Math.max(this.__blurCaos, this.__blurSpread);
 	}
 
 	private get _blurSpread(): number {
@@ -168,8 +168,8 @@ export default class Main extends WebGLBase {
 		this._timeline = gsap.timeline();
 		this._meshes.forEach((mesh, i) => {
 			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1.5, z: -1, duration: 1, ease: "expo.out" }, 0);
-			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 5, duration: 1, ease: "sine.out" }, 0);
-			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 5, duration: 1, ease: "sine.out" }, 0);
+			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 2, duration: 1, ease: "sine.out" }, 0);
+			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 2, duration: 1, ease: "sine.out" }, 0);
 			this._timeline!.add(
 				gsap.timeline()
 					.to(this, { _blurSpread: .7, duration: .1 })

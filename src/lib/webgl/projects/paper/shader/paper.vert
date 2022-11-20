@@ -41,10 +41,10 @@ void main() {
 	vec3 posT = pos + tangent;
 	vec3 posB = pos + binormal;
 
-	pos = getTwistPos(pos, getTwistNoise(pos.y) * uTwist);
+	pos = getTwistPos(pos, getTwistNoise(pos.y) * (uTwist * ((uCaos * 4.) + 1.)));
 
-	posT = getTwistPos(posT, getTwistNoise(posT.y) * uTwist);
-	posB = getTwistPos(posB, getTwistNoise(posB.y) * uTwist);
+	posT = getTwistPos(posT, getTwistNoise(posT.y) * (uTwist * ((uCaos * 4.) + 1.)));
+	posB = getTwistPos(posB, getTwistNoise(posB.y) * (uTwist * ((uCaos * 4.) + 1.)));
 
 	vec3 modifiedTangent = posT - pos;
 	vec3 modifiedBinormal = posB - pos;

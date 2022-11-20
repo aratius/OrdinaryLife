@@ -14,8 +14,9 @@ const vec3 lightVec = - vec3(1., 1., 1.);
 void main() {
 	vec2 coord = vUv;
 	const float interval = 1.3;
-	vec2 fracted = fract(coord * vec2(1., 90. + (sin(uTime) + sin(uTime * .96)) * 25. * uCaos) / interval + vec2(0., uTime * -2.3)) * interval;
-	vec2 floored = floor(coord * vec2(1., 90. + (sin(uTime) + sin(uTime * .96)) * 25. * uCaos) / interval + vec2(0., uTime * -2.3)) * interval;
+	float caosSpring = (sin(uTime) + sin(uTime * .96)) * 25. * uCaos;
+	vec2 fracted = fract(coord * vec2(1., 90. + caosSpring) / interval + vec2(0., uTime * -2.3)) * interval;
+	vec2 floored = floor(coord * vec2(1., 90. + caosSpring) / interval + vec2(0., uTime * -2.3)) * interval;
 	// vec4 color = texture2D(uBarCode, fracted);
 	vec4 color = vec4(1.);
 	color.rgb = vec3(
