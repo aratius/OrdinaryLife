@@ -16,7 +16,8 @@ export const ScrollElement: FC<Props> = (props: Props) => {
   const animate = (): Promise<void> => {
     return new Promise<void>(res => {
       const invokeTime = (t: number) => t * 50 + 500
-      setTimeout(res, invokeTime(props.text.length-5))
+      // setTimeout(res, invokeTime(props.text.length-5))
+      setTimeout(res, 500)
       for(let i = 0; i < props.text.length; i++) {
         setTimeout(() => {
           setText(props.text.split("").slice(0, i+1).join("") + "_")

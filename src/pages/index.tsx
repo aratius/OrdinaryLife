@@ -77,6 +77,7 @@ export default class Index extends Component {
                     <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
                 </div>
                 <div style={{height:"100vh"}}></div>
+                <div className={styles.scroll_notifier}></div>
                 <canvas ref={this._onRefCanvas}></canvas>
             </div>
         )
