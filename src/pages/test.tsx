@@ -35,15 +35,19 @@ export default function Test() {
   }, [])
 
   useEffect(() => {
-    setIsCounting(true)
-    setProg(0)
+    count()
   }, [isSlow])
 
   useEffect(() => {
-    if(isCounting) count()
+    if(isCounting) _count()
   }, [isCounting])
 
-  const count = async () => {
+  const count = () => {
+    setIsCounting(true)
+    setProg(0)
+  }
+
+  const _count = async () => {
     let cnt = 0
     let max = -999
     let min = 999
@@ -136,6 +140,9 @@ export default function Test() {
             <p>max: {max}</p>
             <p>min: {min}</p>
             <canvas ref={onRefChart}></canvas>
+            <br/>
+            <a href="#" onClick={count}>{"> もっかい"}</a>
+            <br/>
             <br/>
             <a
               className={styles.link}
