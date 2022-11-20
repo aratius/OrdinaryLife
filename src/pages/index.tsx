@@ -78,7 +78,10 @@ export default class Index extends Component<Props, State> {
                 <div style={{height:"100vh"}}></div>
                 <div>
                     <ScrollContents />
-                    <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
+                    <Link href="/system" className={styles.link}>{"> システム概要"}</Link>
+                    <br/>
+                    <br/>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSchgIZ4Gbo1d1WI88br2phwtBcuIAKAkaBaeHlFJrowRXSjTw/viewform?usp=sf_link" className={styles.link}>{"> フィードバック"}</a>
                 </div>
                 <div style={{height:"100vh"}}></div>
                 <div

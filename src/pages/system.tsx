@@ -85,6 +85,9 @@ export default class Index extends Component {
                 <br/>
                 <br/>
                 <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
+                <br/>
+                <br/>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSchgIZ4Gbo1d1WI88br2phwtBcuIAKAkaBaeHlFJrowRXSjTw/viewform?usp=sf_link" className={styles.link}>{"> フィードバック"}</a>
                 <div style={{height:"100vh"}}></div>
                 <div
                     className={styles.scroll_notifier}

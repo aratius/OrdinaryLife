@@ -1,6 +1,6 @@
 import { Chart, CategoryScale, ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title} from 'chart.js'
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import Life, { Sex } from '../lib/life';
 import styles from '../styles/test.module.scss'
 Chart.register(CategoryScale, LineController, LineElement, PointElement, LinearScale, Title);
@@ -12,6 +12,7 @@ Chart.register(CategoryScale, LineController, LineElement, PointElement, LinearS
 export default function Test() {
 
   const [isCounting, setIsCounting] = useState<boolean>(true)
+  const [isSlow, setIsSlow] = useState<boolean>(false)
 
   const [events, setEvents] = useState<string[]>([])
   const [sex, setSex] = useState<Sex>(Sex.undefined)
@@ -30,17 +31,29 @@ export default function Test() {
     isMounted.current = true
   }, [])
 
+  useEffect(() => {
+    setIsCounting(true)
+    setProg(0)
+  }, [isSlow])
+
+  useEffect(() => {
+    if(isCounting) count()
+  }, [isCounting])
+
   const count = async () => {
     let cnt = 0
-    while(cnt < 1000) {
-      await new Promise(r => setTimeout(r, 1))
+    lifeLimits.current = []
+    const max = isSlow ? 30 : 1000
+    while(cnt < max) {
+      const wait = isSlow ? 1000 : 1
+      await new Promise(r => setTimeout(r, wait))
       life.current = new Life()
       const hasBorn = life.current.born()
       if (hasBorn) life.current.execute()
 
       setEvents(life.current.events)
       setSex(life.current.sex)
-      setProg(cnt / 1000)
+      setProg(cnt / max)
 
       lifeLimits.current.push(life.current.age)
       cnt ++
@@ -48,12 +61,18 @@ export default function Test() {
     setIsCounting(false)
   }
 
+  const onClickSpeed: MouseEventHandler = (e) => {
+    if(e && e.cancelable) e.preventDefault()
+    setIsSlow(!isSlow)
+  }
+
   /**
    *
    * @param node
    */
   const onRefChart = (node: HTMLCanvasElement) => {
-    if(!node || chart.current != null) return
+    if(!node) return
+    if(chart.current) chart.current.destroy()
     const limits = [...lifeLimits.current]
     const max = limits.reduce((a, b) => Math.max(a, b))
     const ave = limits.reduce((a, b) => a + b) / limits.length
@@ -102,6 +121,14 @@ export default function Test() {
           <>
             <p>average: {average}</p>
             <canvas ref={onRefChart}></canvas>
+            <br/>
+            <a
+              className={styles.link}
+              onClick={onClickSpeed}
+            >
+              {`> ${isSlow ? "はやく" : "ゆっくり"}`}
+            </a>
+            <br/>
             <br/>
             <Link href="/system" className={styles.link}>{"> 戻る"}</Link>
           </>
