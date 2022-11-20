@@ -14,6 +14,7 @@ varying vec2 vUv;
 
 uniform float uTime;
 uniform float uTwist;
+uniform float uCaos;
 
 //
 float atan2(in float y, in float x){

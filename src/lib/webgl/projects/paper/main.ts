@@ -21,11 +21,33 @@ export default class Main extends WebGLBase {
 	private _composer: EffectComposer | null = null;
 	private _meshes: Mesh<BoxBufferGeometry, PaperMaterial>[] = [];
 	private _timeline: (GSAPTimeline | null) = null;
+	private _caosTimeline: (GSAPTimeline | null) = null;
+	private _blendPass: ShaderPass | null = null;
+	private __blurCaos: number = 0;
+	private __blurSpread: number = 0;
 
 	constructor(canvas: HTMLCanvasElement) {
 		super(canvas, {
 			camera: "perspective"
 		});
+	}
+
+	private set _blurCaos(val: number) {
+		this.__blurCaos = val;
+		this._blendPass!.uniforms["mixRatio"].value = Math.max(this.__blurCaos, this.__blurSpread);
+	}
+
+	private get _blurCaos(): number {
+		return this.__blurCaos;
+	}
+
+	private set _blurSpread(val: number) {
+		this.__blurSpread = val;
+		this._blendPass!.uniforms["mixRatio"].value = Math.max(this.__blurCaos, this.__blurSpread);
+	}
+
+	private get _blurSpread(): number {
+		return this.__blurSpread;
 	}
 
 	protected async _initChild(): Promise<void> {
@@ -40,7 +62,7 @@ export default class Main extends WebGLBase {
 		}
 
 		const bgGeo = new BoxBufferGeometry(1, 1, .001);
-		const bgMat = new MeshStandardMaterial({ color: 0xffffff, metalness: 1, roughness: 1 });
+		const bgMat = new MeshStandardMaterial({ color: 0xffffff, metalness: .8, roughness: 1 });
 		const bg = new Mesh(bgGeo, bgMat);
 		bg.scale.multiplyScalar(100);
 		bg.position.setZ(-2);
@@ -89,7 +111,8 @@ export default class Main extends WebGLBase {
 
 		const blendPass = new ShaderPass(BlendShader, "tDiffuse1");
 		blendPass.uniforms["tDiffuse2"] = new Uniform(savePass.renderTarget.texture);
-		blendPass.uniforms["mixRatio"] = new Uniform(.5);
+		blendPass.uniforms["mixRatio"] = new Uniform(.1);
+		this._blendPass = blendPass;
 
 		const outputPass = new ShaderPass(CopyShader);
 		outputPass.renderToScreen = true;
@@ -125,11 +148,16 @@ export default class Main extends WebGLBase {
 
 	/**
 	 *
-	 * @param val
+	 * @param value
 	 */
-	public setCaos(val: number): void {
-		console.log("caos", val);
-
+	public setCaos(value: number): void {
+		if (this._caosTimeline != null) this._caosTimeline.kill();
+		this._caosTimeline = gsap.timeline();
+		this._meshes.forEach((mesh, i) => {
+			this._caosTimeline!.to(mesh.material.uniforms.uCaos, { value, duration: 1, ease: "sine.out" }, 0);
+			this._caosTimeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uCaos, { value, duration: 1, ease: "sine.out" }, 0);
+			this._caosTimeline!.to(this, { _blurCaos: value * .7, duration: .1 }, 0);
+		});
 	}
 
 	/**
@@ -142,6 +170,11 @@ export default class Main extends WebGLBase {
 			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1.5, z: -1, duration: 1, ease: "expo.out" }, 0);
 			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 5, duration: 1, ease: "sine.out" }, 0);
 			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 5, duration: 1, ease: "sine.out" }, 0);
+			this._timeline!.add(
+				gsap.timeline()
+					.to(this, { _blurSpread: .7, duration: .1 })
+					.to(this, { _blurSpread: 0.1, duration: 2, ease: "sine.inOut" })
+				, 0);
 		});
 	}
 
@@ -150,8 +183,13 @@ export default class Main extends WebGLBase {
 		this._timeline = gsap.timeline();
 		this._meshes.forEach((mesh, i) => {
 			this._timeline!.to(mesh.position, { x: (i - PAPER_NUM / 2) * 1, z: 0, duration: 1, ease: "expo.out" }, 0);
-			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 0, duration: 1, ease: "sine.out" }, 0);
-			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 0, duration: 1, ease: "sine.out" }, 0);
+			this._timeline!.to(mesh.material.uniforms.uTwist, { value: 0, duration: 2, ease: "back.out" }, 0);
+			this._timeline!.to((mesh.customDepthMaterial as ShaderMaterial).uniforms.uTwist, { value: 0, duration: 2, ease: "back.out" }, 0);
+			this._timeline!.add(
+				gsap.timeline()
+					.to(this, { _blurSpread: .7, duration: .1 })
+					.to(this, { _blurSpread: 0.1, duration: 2, ease: "sine.inOut" })
+				, 0);
 		});
 	}
 

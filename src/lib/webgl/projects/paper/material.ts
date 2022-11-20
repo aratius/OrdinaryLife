@@ -12,7 +12,8 @@ export default class PaperMaterial extends ShaderMaterial {
 			uniforms: {
 				uTime: new Uniform(0),
 				uTwist: new Uniform(0),
-				uBarCode: new Uniform(tex)
+				uBarCode: new Uniform(tex),
+				uCaos: new Uniform(0)
 			},
 			transparent: true
 		});
@@ -26,6 +27,7 @@ export default class PaperMaterial extends ShaderMaterial {
 				...ShaderLib["depth"].uniforms,
 				uTime: new Uniform(0),
 				uTwist: new Uniform(0),
+				uCaos: new Uniform(0)
 			},
 			defines: {
 				"DEPTH_PACKING": RGBADepthPacking
