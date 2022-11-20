@@ -7,13 +7,15 @@ import styles from "src/styles/index.module.scss"
 
 interface Props {}
 interface State {
-    bg: boolean
+    bg: boolean;
+    hasScrolled: boolean
 }
 
 export default class Index extends Component {
 
     public state: State = {
-        bg: false
+        bg: false,
+        hasScrolled: false
     }
 	private _webgl: WebGLMain | null = null
     private _container: HTMLDivElement|null = null
@@ -61,11 +63,14 @@ export default class Index extends Component {
 
         this._webgl.setCaos(progress)
 
+        if(!this.state.hasScrolled) this.setState({ hasScrolled: true })
+
         this._lastProgress = progress
     }
 
     public render(): ReactElement {
-        const { bg } = this.state
+        const { bg, hasScrolled } = this.state
+
         return (
             <div
                 className={`${styles.container} ${bg ? styles.bg_black : ""}`}
@@ -81,6 +86,10 @@ export default class Index extends Component {
                 <br/>
                 <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
                 <div style={{height:"100vh"}}></div>
+                <div
+                    className={styles.scroll_notifier}
+                    style={{opacity: hasScrolled ? 0 : 1}}
+                ></div>
                 <canvas ref={this._onRefCanvas}></canvas>
             </div>
         )
