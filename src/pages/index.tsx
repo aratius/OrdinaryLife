@@ -1,7 +1,7 @@
 
 import { Component, ReactElement } from "react";
 import WebGLMain from "src/lib/webgl/projects/paper/main";
-import styles from "src/styles/projects/paper.module.scss"
+import styles from "src/styles/index.module.scss"
 
 interface Props {}
 interface State {}
@@ -32,6 +32,12 @@ export default class Index extends Component {
     public render(): ReactElement {
         return (
             <div className={styles.container}>
+                <ul className={styles.messages}>
+                    <li>hello</li>
+                    <li>hello</li>
+                    <li>hello</li>
+                    <li>hello</li>
+                </ul>
                 <canvas ref={this._onRefCanvas}></canvas>
             </div>
         )

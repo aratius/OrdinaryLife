@@ -1,6 +1,6 @@
 import { FocusEventHandler, SyntheticEvent, useEffect, useRef, useState } from "react";
 import VoicePlayer from "src/lib/voicePlayer";
-import styles from "src/styles/index.module.scss"
+import styles from "src/styles/app.module.scss"
 
 import { VoiceForm } from "src/components/voiceForm";
 import { ScannerInput } from "src/components/scannerInput";
