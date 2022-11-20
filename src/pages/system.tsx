@@ -1,7 +1,7 @@
 
 import Link from "next/link";
 import { Component, ReactElement } from "react";
-import { ScrollContents } from "src/components/scrollContents/desc";
+import { ScrollContents } from "src/components/scrollContents/system";
 import WebGLMain from "src/lib/webgl/projects/paper/main";
 import styles from "src/styles/index.module.scss"
 
@@ -35,7 +35,13 @@ export default class Index extends Component {
         return (
             <div className={`${styles.container} ${styles.bg_black}`}>
                 <ScrollContents />
-                <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
+                <Link href="/test" className={styles.link}>{"> 寿命生成デモ"}</Link>
+                <br/>
+                <br/>
+                <Link href="/voice" className={styles.link}>{"> 自動音声デモ"}</Link>
+                <br/>
+                <br/>
+                <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
                 <canvas ref={this._onRefCanvas}></canvas>
             </div>
         )

@@ -1,4 +1,5 @@
 import { Chart, CategoryScale, ChartConfiguration, LineController, LineElement, PointElement, LinearScale, Title} from 'chart.js'
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import Life, { Sex } from '../lib/life';
 import styles from '../styles/test.module.scss'
@@ -95,6 +96,11 @@ export default function Test() {
           <>
             <p>average: {average}</p>
             <canvas ref={onRefChart}></canvas>
+            <br/>
+            <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
+            <br/>
+            <br/>
+            <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
           </>
         }
     </div>
