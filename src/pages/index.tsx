@@ -34,8 +34,10 @@ export default class Index extends Component {
     public render(): ReactElement {
         return (
             <div className={`${styles.container} ${styles.bg_black}`}>
+                <div style={{height:"100vh"}}></div>
                 <ScrollContents />
                 <Link href="/system" className={styles.link}>{"> システム説明"}</Link>
+                <div style={{height:"100vh"}}></div>
                 <canvas ref={this._onRefCanvas}></canvas>
             </div>
         )
