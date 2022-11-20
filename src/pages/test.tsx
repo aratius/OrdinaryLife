@@ -18,6 +18,9 @@ export default function Test() {
   const [sex, setSex] = useState<Sex>(Sex.undefined)
 
   const [average, setAverage] = useState<number>(0)
+  const [sample, setSample] = useState<number>(0)
+  const [max, setMax] = useState<number>(0)
+  const [min, setMin] = useState<number>(0)
   const [prog, setProg] = useState<number>(0)
 
   const isMounted = useRef<boolean>(false)
@@ -42,22 +45,31 @@ export default function Test() {
 
   const count = async () => {
     let cnt = 0
+    let max = -999
+    let min = 999
     lifeLimits.current = []
-    const max = isSlow ? 30 : 1000
-    while(cnt < max) {
+    const sample = isSlow ? 30 : 1000
+    setSample(sample)
+    while(cnt < sample) {
       const wait = isSlow ? 1000 : 1
       await new Promise(r => setTimeout(r, wait))
       life.current = new Life()
       const hasBorn = life.current.born()
       if (hasBorn) life.current.execute()
 
+      const limit = life.current.age
+      if(limit > max) max = limit
+      if(limit < min) min = limit
+
       setEvents(life.current.events)
       setSex(life.current.sex)
-      setProg(cnt / max)
+      setProg(cnt / sample)
 
-      lifeLimits.current.push(life.current.age)
+      lifeLimits.current.push(limit)
       cnt ++
     }
+    setMax(max)
+    setMin(min)
     setIsCounting(false)
   }
 
@@ -120,6 +132,9 @@ export default function Test() {
           </>:
           <>
             <p>average: {average}</p>
+            <p>sample: {sample}</p>
+            <p>max: {max}</p>
+            <p>min: {min}</p>
             <canvas ref={onRefChart}></canvas>
             <br/>
             <a
