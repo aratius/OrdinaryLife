@@ -33,7 +33,6 @@ export default class Main extends WebGLBase {
 	}
 
 	private get _paperNum(): number {
-		console.log(Math.ceil(innerWidth / 100) + 1);
 		return Math.ceil(innerWidth / 100) + 2;
 	}
 
