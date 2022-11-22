@@ -5,6 +5,9 @@ import Head from 'next/head';
 export default function App({ Component, pageProps }: AppProps) {
   return <>
     <Head>
+      <title>Existence</title>
+      <link rel="icon" href="/favicon.ico" />
+
       <meta property="og:url" content="https://existence.aualrxse.com/" />
       <meta property="og:type" content="website" />
       <meta property="og:title" content="What is the 'existence' ?" />
@@ -13,6 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <meta property="og:image" key="ogImage" content="https://existence.aualrxse.com/images/og.png" />
       <meta name="twitter:card" key="twitterCard" content="summary_large_image" />
       <meta name="twitter:site" content="@aualrxse" />
+
     </Head>
     <Component {...pageProps} />
   </>
