@@ -159,7 +159,7 @@ export default class Main extends WebGLBase {
 	protected _updateChild(): void {
 		this._composer?.render();
 		this._meshes.forEach((mesh, i) => {
-			const tOffset = Math.sin(i * 111.1) * 100;
+			const tOffset = Math.sin(i * 141.1) * 100;
 			mesh.material.uniforms.uTime = new Uniform(this._elapsedTime + tOffset);
 			(mesh.customDepthMaterial as ShaderMaterial).uniforms.uTime = new Uniform(this._elapsedTime + tOffset);
 		});

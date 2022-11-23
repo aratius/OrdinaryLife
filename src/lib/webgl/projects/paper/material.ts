@@ -1,4 +1,4 @@
-import { DoubleSide, RGBADepthPacking, ShaderLib, ShaderMaterial, Texture, Uniform } from "three";
+import { RGBADepthPacking, ShaderLib, ShaderMaterial, Uniform } from "three";
 import fragmentShader from "./shader/paper.frag";
 import vertexShader from "./shader/paper.vert";
 import depthVertexShader from "./shader/paperDepth.vert";
@@ -12,10 +12,11 @@ export default class PaperMaterial extends ShaderMaterial {
 			uniforms: {
 				uTime: new Uniform(0),
 				uTwist: new Uniform(0),
-				uCaos: new Uniform(0)
+				uCaos: new Uniform(0),
 			},
 			transparent: true
 		});
+
 	}
 
 	public getDepthMaterial(): ShaderMaterial {

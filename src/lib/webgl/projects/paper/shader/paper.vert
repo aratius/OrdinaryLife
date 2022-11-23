@@ -31,15 +31,19 @@ float getTwistNoise(float y) {
 	return snoise2(vec2(y * .03 - uTime * .03, uTime * 0.05));
 }
 
+vec3 orthogonal(vec3 v) {
+  return normalize(abs(v.x) > abs(v.z) ? vec3(-v.y, v.x, 0.0) : vec3(0.0, -v.z, v.y));
+}
+
 //
 void main() {
 	vec3 pos = position;
 
-	vec3 tangent = cross(normal, vec3(0., 1., 0.));
+	vec3 tangent = orthogonal(normal);
 	vec3 binormal = cross(tangent, normal);
 
-	vec3 posT = pos + tangent;
-	vec3 posB = pos + binormal;
+	vec3 posT = pos + tangent * .0001;
+	vec3 posB = pos + binormal * .0001;
 
 	pos = getTwistPos(pos, getTwistNoise(pos.y) * (uTwist * ((uCaos * 4.) + 1.)));
 

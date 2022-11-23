@@ -11,6 +11,7 @@ uniform float uCaos;
 
 const vec3 lightVec = - vec3(1., 1., 1.);
 
+
 void main() {
 	vec2 coord = vUv;
 	const float interval = 1.3;

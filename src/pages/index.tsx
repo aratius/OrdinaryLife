@@ -1,6 +1,7 @@
 
 import Link from "next/link";
 import { Component, ReactElement, SyntheticEvent } from "react";
+import { Loading } from "src/components/loading";
 import { ScrollContents } from "src/components/scrollContents/desc";
 import WebGLMain from "src/lib/webgl/projects/paper/main";
 import styles from "src/styles/index.module.scss"
@@ -9,13 +10,15 @@ interface Props {}
 interface State {
     bg: boolean;
     hasScrolled: boolean;
+    isLoaded: boolean
 }
 
 export default class Index extends Component<Props, State> {
 
     public state: State = {
         bg: false,
-        hasScrolled: false
+        hasScrolled: false,
+        isLoaded: false
     }
 	private _webgl: WebGLMain | null = null
     private _container: HTMLDivElement|null = null
@@ -27,6 +30,7 @@ export default class Index extends Component<Props, State> {
 
     public componentDidMount(): void {
         window.addEventListener("scroll", this._onScroll)
+        document.body.style.overflowY = "hidden"
     }
 
 	componentWillUnmount(): void {
@@ -68,6 +72,13 @@ export default class Index extends Component<Props, State> {
         this._lastProgress = progress
     }
 
+    /**
+     *
+     */
+    private _onLoad = () => {
+        document.body.style.overflowY = "scroll"
+    }
+
     public render(): ReactElement {
         const { bg, hasScrolled } = this.state
         return (
@@ -89,6 +100,9 @@ export default class Index extends Component<Props, State> {
                     style={{opacity: hasScrolled ? 0 : 1}}
                 ></div>
                 <canvas ref={this._onRefCanvas}></canvas>
+                <Loading
+                    onLoad={this._onLoad}
+                />
             </div>
         )
     }
