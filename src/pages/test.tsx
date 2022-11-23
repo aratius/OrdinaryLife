@@ -122,6 +122,9 @@ export default function Test() {
         {
           isCounting ?
           <>
+            <Link href="/system" className={styles.link}>{"戻る"}</Link>
+            <br/>
+            <br/>
             <span
               className={styles.bar}
               style={{width: `${prog * 100}%`}}
@@ -141,18 +144,18 @@ export default function Test() {
             <p>min: {min}</p>
             <canvas ref={onRefChart}></canvas>
             <br/>
-            <a href="#" onClick={count}>{"> もっかい"}</a>
+            <a href="#" onClick={count}>{"もっかい"}</a>
             <br/>
             <br/>
             <a
               className={styles.link}
               onClick={onClickSpeed}
             >
-              {`> ${isSlow ? "はやく" : "ゆっくり"}`}
+              {`${isSlow ? "はやく" : "ゆっくり"}`}
             </a>
             <br/>
             <br/>
-            <Link href="/system" className={styles.link}>{"> 戻る"}</Link>
+            <Link href="/system" className={styles.link}>{"戻る"}</Link>
           </>
         }
     </div>

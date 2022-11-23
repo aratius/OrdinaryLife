@@ -57,7 +57,7 @@ export default function Index() {
         </form>
       }
       <br/>
-      <Link href="/system" className={styles.link}>{"> 戻る"}</Link>
+      <Link href="/system" className={styles.link}>{"戻る"}</Link>
     </div>
   )
 }

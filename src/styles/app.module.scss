@@ -85,5 +85,17 @@
   a {
     border-bottom: 2px solid;
     font-size: 1.3rem;
+
+		&::before {
+			white-space: pre-wrap;
+			content: "> ";
+		}
+
+		&:hover {
+
+			&::before {
+				content: " >";
+			}
+		}
   }
 }
