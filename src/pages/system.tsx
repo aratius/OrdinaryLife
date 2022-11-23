@@ -27,6 +27,7 @@ export default class Index extends Component {
 
     public componentDidMount(): void {
         window.addEventListener("scroll", this._onScroll)
+        window.scrollTo(0, 0)
     }
 
 	componentWillUnmount(): void {
@@ -78,16 +79,16 @@ export default class Index extends Component {
             >
                 <div style={{height:"100vh"}}></div>
                 <ScrollContents />
-                <Link href="/test" className={styles.link}>{"> 寿命生成デモ"}</Link>
+                <Link href="/test" className={styles.link}>{"寿命生成デモ"}</Link>
                 <br/>
                 <br/>
-                <Link href="/voice" className={styles.link}>{"> 自動音声デモ"}</Link>
+                <Link href="/voice" className={styles.link}>{"自動音声デモ"}</Link>
                 <br/>
                 <br/>
-                <Link href="/" className={styles.link}>{"> 作品説明"}</Link>
+                <Link href="/" className={styles.link}>{"作品説明"}</Link>
                 <br/>
                 <br/>
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSchgIZ4Gbo1d1WI88br2phwtBcuIAKAkaBaeHlFJrowRXSjTw/viewform?usp=sf_link" className={styles.link}>{"> フィードバック"}</a>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSchgIZ4Gbo1d1WI88br2phwtBcuIAKAkaBaeHlFJrowRXSjTw/viewform?usp=sf_link" className={styles.link}>{"フィードバック"}</a>
                 <div style={{height:"100vh"}}></div>
                 <div
                     className={styles.scroll_notifier}
