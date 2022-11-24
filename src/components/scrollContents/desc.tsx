@@ -61,11 +61,15 @@ export const ScrollContents: FC<Props> = (props: Props) => {
         onRef={onRefElement}
       />
       <ScrollElement
-        text="過去を生きた名もない人生の"
+        text="過去を生きた名もなき人生のアーカイヴである."
         onRef={onRefElement}
       />
       <ScrollElement
-        text="アーカイヴとしての役割を持つ."
+        text="鑑賞者はスキャナでバーコードを読み取ることで,"
+        onRef={onRefElement}
+      />
+      <ScrollElement
+        text="アーカイヴされた名もなき人生の存在に気づく."
         onRef={onRefElement}
       />
       <ScrollElement
