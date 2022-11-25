@@ -49,6 +49,8 @@ export const VoiceForm: FC<Props>  = (props: Props)=> {
         <label htmlFor="">age</label>
         <input
           type="number"
+          min={0}
+          max={110}
           defaultValue={DEFAULTS.age}
           onChange={e => setAge(parseInt(e.target.value))}
         />

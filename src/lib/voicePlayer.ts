@@ -46,42 +46,50 @@ export default class VoicePlayer {
 
     this._players.ivy = new Howl({
       src: IvySpriteJson.urls.map(u => pickPath(u)),
-      sprite: (IvySpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (IvySpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.joanna = new Howl({
       src: JoannaSpriteJson.urls.map(u => pickPath(u)),
-      sprite: (JoannaSpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (JoannaSpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.joey = new Howl({
       src: JoeySpriteJson.urls.map(u => pickPath(u)),
-      sprite: (JoeySpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (JoeySpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.justin = new Howl({
       src: JustinSpriteJson.urls.map(u => pickPath(u)),
-      sprite: (JustinSpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (JustinSpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.kevin = new Howl({
       src: KevinSpriteJson.urls.map(u => pickPath(u)),
-      sprite: (KevinSpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (KevinSpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.kimberly = new Howl({
       src: KimberlySpriteJson.urls.map(u => pickPath(u)),
-      sprite: (KimberlySpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (KimberlySpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.matthew = new Howl({
       src: MatthewSpriteJson.urls.map(u => pickPath(u)),
-      sprite: (MatthewSpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (MatthewSpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
     this._players.salli = new Howl({
       src: SalliSpriteJson.urls.map(u => pickPath(u)),
-      sprite: (SalliSpriteJson.sprite as any as SoundSpriteDefinitions)
+      sprite: (SalliSpriteJson.sprite as any as SoundSpriteDefinitions),
+      html5: true
     });
 
   }

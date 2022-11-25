@@ -32,7 +32,7 @@ module.exports = class Life {
    * born
    */
   born() {
-    this._status.sex = percent(.5) ? "male" : "female";
+    this._status.sex = percent(958/1958) ? "male" : "female";
     if (percent(DEAD_PROBABILITIES[this._status.sex][0])) {
       this._status.events.push("die");
       return false;

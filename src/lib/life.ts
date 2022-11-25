@@ -57,7 +57,7 @@ export default class Life {
    * born
    */
   public born(): boolean {
-    this._status.sex = percenet(.5) ? Sex.male : Sex.female;
+    this._status.sex = percenet(958 / 1958) ? Sex.male : Sex.female;
     if (percenet(DEAD_PROBABILITIES[this._status.sex == Sex.male ? "male" : "female"][0])) {
       this._status.events.push("die");
       return false;
@@ -79,7 +79,7 @@ export default class Life {
     for (let age in deadProbabilities) {
       if (percenet(deadProbabilities[age])) break;
       let verb = VERBS[Math.floor(Math.random() * VERBS.length)];
-      while (verb == lastVerb) verb = VERBS[Math.floor(Math.random() * VERBS.length)];
+      while (verb == lastVerb || verb == "born" || verb == "die") verb = VERBS[Math.floor(Math.random() * VERBS.length)];
       this._status.events.push(verb);
       lastVerb = verb;
     }

@@ -22,7 +22,7 @@ const app = async () => {
   console.log("exec command : npm run dev");
 
   // ブラウザを開く
-  open("http://localhost:3000/")
+  open("http://localhost:3000/app")
   console.log("open browser");
 
   // WebSocket接続待ち
