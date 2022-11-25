@@ -33,19 +33,23 @@ export default function Index() {
   }
 
   /**
-   *
+   * on focut input
    */
   const onFocusInput: FocusEventHandler = (e) => {
     setMode("scanner")
   }
 
   /**
-   *
+   * on blur input
    */
   const onBlurInput: FocusEventHandler = (e) => {
     setMode("form")
   }
 
+  /**
+   * on init
+   * @param e 
+   */
   const onInit = (e: SyntheticEvent) => {
     if(e && e.cancelable) e.preventDefault()
     setHasInitialized(true)
