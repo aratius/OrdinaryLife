@@ -1,14 +1,10 @@
 
 import Link from "next/link";
-import { Component, ReactElement, SyntheticEvent } from "react";
+import { Component, ReactElement } from "react";
 import { Loading } from "src/components/loading";
 import { ScrollContents } from "src/components/scrollContents/desc";
 import WebGLMain from "src/lib/webgl/projects/paper/main";
 import styles from "src/styles/index.module.scss"
-
-import { VoiceForm } from "src/components/voiceForm";
-import { ScannerInput } from "src/components/scannerInput";
-import { WsInput } from "src/components/wsInput";
 
 interface Props {}
 interface State {
