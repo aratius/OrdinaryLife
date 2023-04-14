@@ -40,6 +40,7 @@ module.exports = class Printer {
    * print
    */
   _print(text) {
+    return
     console.log("print : " + text);
     const req = http.request(
       {

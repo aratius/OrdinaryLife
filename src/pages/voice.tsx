@@ -2,7 +2,7 @@ import { FocusEventHandler, SyntheticEvent, useEffect, useRef, useState } from "
 import VoicePlayer from "src/lib/voicePlayer";
 import styles from "src/styles/app.module.scss"
 
-import { VoiceForm } from "src/components/voiceForm";
+import { FormInput } from "src/components/formInput";
 import Link from "next/link";
 
 /**
@@ -44,7 +44,7 @@ export default function Index() {
       {
         hasInitialized ?
         <>
-          <VoiceForm
+          <FormInput
             onData={onData}
           />
         </> :

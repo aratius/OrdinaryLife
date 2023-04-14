@@ -2,9 +2,9 @@ import { FocusEventHandler, SyntheticEvent, useEffect, useRef, useState } from "
 import VoicePlayer from "src/lib/voicePlayer";
 import styles from "src/styles/app.module.scss"
 
-import { VoiceForm } from "src/components/voiceForm";
+import { FormInput } from "src/components/formInput";
 import { ScannerInput } from "src/components/scannerInput";
-import { WsInput } from "src/components/wsInput";
+import { Ws } from "src/components/ws";
 
 
 /**
@@ -14,6 +14,7 @@ import { WsInput } from "src/components/wsInput";
 export default function Index() {
 
   const [mode, setMode] = useState<string>("idle")
+  const [wsSendData, SetWsSendData] = useState("")
   const [hasInitialized, setHasInitialized] = useState<boolean>(false)
   const player = useRef<VoicePlayer|null>(null)
 
@@ -30,6 +31,11 @@ export default function Index() {
    */
   const onData = (word: string, age: number, sex: number) => {
     player.current?.play(word, age, sex)
+  }
+
+  const onDataStart = () => {
+    SetWsSendData("");
+    setTimeout(() => SetWsSendData("input"), 1);
   }
 
   /**
@@ -62,16 +68,19 @@ export default function Index() {
         <>
           <ScannerInput
             onData={onData}
+            onDataStart={onDataStart}
             onFocus={onFocusInput}
             onBlur={onBlurInput}
           />
           <br/><br/>
-          <VoiceForm
+          <FormInput
             onData={onData}
+            onDataStart={onDataStart}
           />
           <br/>
-          <WsInput
+          <Ws
             onData={onData}
+            sendData={wsSendData}
           />
         </> :
         <form action="">

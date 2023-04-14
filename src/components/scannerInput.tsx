@@ -1,7 +1,8 @@
-import { FC, FocusEventHandler, SyntheticEvent, useRef } from "react";
+import { FC, FocusEventHandler, SyntheticEvent, useRef, useState } from "react";
 
 interface Props {
   onData: (word: string, age: number, sex: number) => void
+  onDataStart: () => void
   onBlur: FocusEventHandler
   onFocus: FocusEventHandler
 }
@@ -13,6 +14,7 @@ interface Props {
  */
 export const ScannerInput: FC<Props>  = (props: Props)=> {
 
+  const [isScanning, setIsScanning] = useState(false)
   const inputTimer = useRef<NodeJS.Timer|null>(null)
 
   /**
@@ -21,18 +23,21 @@ export const ScannerInput: FC<Props>  = (props: Props)=> {
    */
   const onChange = (e: SyntheticEvent) => {
     if(inputTimer.current) clearTimeout(inputTimer.current)
-    inputTimer.current = setTimeout(() => {
-      const [word, age, sex] = (e.target as HTMLInputElement).value.split("/");
-      (e.target as HTMLInputElement).value = "";
-      onEndInput(word, parseInt(age), parseInt(sex))
-    }, 100);
+    if(!isScanning) {
+      setIsScanning(true);
+      props.onDataStart()
+    }
+    inputTimer.current = setTimeout(() => onEndInput(e), 100);
   }
 
   /**
    *
    */
-  const onEndInput = (word: string, age: number, sex: number) => {
-    props.onData(word, age, sex)
+  const onEndInput = (e: any) => {
+    const [word, age, sex] = (e.target as HTMLInputElement).value.split("/");
+    (e.target as HTMLInputElement).value = "";
+    props.onData(word, parseInt(age), parseInt(sex))
+    setIsScanning(false);
   }
 
   return (

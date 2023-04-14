@@ -1,12 +1,14 @@
 const Life = require("./life");
 const Printer = require("../utils/printer")
-const { Server } = require("ws")
+const Ws = require("ws")
+const Osc = require("node-osc")
 const fs = require("fs");
 const open = require("open")
 const { exec } = require('child_process');
 
 const printer = new Printer("127.0.0.1", 8080)
-const wsServer = new Server({port: 8002})
+const wsServer = new Ws.Server({port: 8002})
+const oscClient = new Osc.Client("192.168.0.255", 8003)
 
 let cnt = 0
 const crr = process.cwd()
@@ -15,20 +17,21 @@ const crr = process.cwd()
  * main
  */
 const app = async () => {
-  console.log("an app launched");
+  console.log("### an app launched");
 
   // Next.jsのローカルサーバーを立ち上げ
   exec("npm run dev")
-  console.log("exec command : npm run dev");
+  console.log("### exec command : npm run dev");
 
   // ブラウザを開く
   open("http://localhost:3000/app")
-  console.log("open browser");
+  console.log("### open browser");
 
   // WebSocket接続待ち
   await new Promise((res, rej) => {
-    wsServer.on("connection", async (msg) => {
-      console.log("ws connected");
+    wsServer.on("connection", (ws) => {
+      console.log("### ws connected");
+      ws.on("message", onReceiveMessage)
       res()
     })
   })
@@ -78,6 +81,14 @@ const doLife = async () => {
 
   await new Promise(r => setTimeout(() => setTimeout(r, 1000)))
   printer.add("\n\n\n\n\n")
+}
+
+const onReceiveMessage = (msg) => {
+  if(msg == "input") {
+    // TODO: ESPにosc送信
+    // "/input" 1
+    oscClient.send("/input", 1, () => oscClient.close());
+  }
 }
 
 /**
