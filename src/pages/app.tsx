@@ -30,10 +30,8 @@ export default function Index() {
    * @param sex
    */
   const onData = (word: string, age: number, sex: number) => {
+    // NOTE: 1sec delayかますならここ
     player.current?.play(word, age, sex)
-  }
-
-  const onDataStart = () => {
     SetWsSendData("");
     setTimeout(() => SetWsSendData("input"), 1);
   }
@@ -68,14 +66,12 @@ export default function Index() {
         <>
           <ScannerInput
             onData={onData}
-            onDataStart={onDataStart}
             onFocus={onFocusInput}
             onBlur={onBlurInput}
           />
           <br/><br/>
           <FormInput
             onData={onData}
-            onDataStart={onDataStart}
           />
           <br/>
           <Ws

@@ -10,7 +10,6 @@ const DEFAULTS = {
 
 interface Props {
   onData: (word: string, age: number, sex: number) => void
-  onDataStart?: () => void
 }
 
 /**
@@ -27,7 +26,6 @@ export const FormInput: FC<Props>  = (props: Props)=> {
   const onSubmit = (e: SyntheticEvent) => {
     if(e && e.cancelable) e.preventDefault()
     props.onData(word, age, sex)
-    props.onDataStart && props.onDataStart();
   }
 
   return (
