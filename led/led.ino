@@ -86,9 +86,10 @@ void loop () {
   blightness *= .99;
 
   pixels.clear(); // Set all pixel colors to 'off'
+  float t = (float)millis() / 1000;
 
+  float b =  255 * blightness + (sin(t * .95) + sin(t * .9) + 2) / 4 * 155;
   for(int i=0; i<NUMPIXELS; i++) { // For each pixel...
-    float b = 255 * blightness;
     pixels.setPixelColor(i, pixels.Color(b, b, b));
   }
   pixels.show();   // Send the updated pixel colors to the hardware.

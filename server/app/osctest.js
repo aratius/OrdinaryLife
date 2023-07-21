@@ -1,5 +1,5 @@
 const Osc = require("node-osc")
-const oscClient = new Osc.Client("192.168.0.255", 8003)
+const oscClient = new Osc.Client("192.168.11.100", 8003)
 
 /**
  * main
@@ -9,6 +9,7 @@ const app = async () => {
 
   setInterval(() => {
     oscClient.send("/input", 1);
+    console.log("out");
   }, 1000)
 }
 
